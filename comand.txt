@@ -1,0 +1,237 @@
+[root@centos ~]# dnf -y install httpd php php-mbstring
+[root@centos ~]# cp -r /etc/httpd/conf/httpd.conf /etc/httpd/conf/httpd.conf.org
+
+（１）Apache設定
+
+[root@centos ~]# vi /etc/httpd/conf/httpd.conf　←　Apache設定ファイル編集
+#ServerName www.example.com:80
+↓
+ServerName centossrv.com:80　←　サーバー名を指定
+
+<Directory "/var/www/html">
+
+#
+# Possible values for the Options directive are "None", "All",
+# or any combination of:
+#   Indexes Includes FollowSymLinks SymLinksifOwnerMatch ExecCGI MultiViews
+#
+# Note that "MultiViews" must be named *explicitly* --- "Options All"
+# doesn't give it to you.
+#
+# The Options directive is both complicated and important.  Please see
+# http://httpd.apache.org/docs-2.0/mod/core.html#options
+# for more information.
+#
+    Options Indexes FollowSymLinks
+　　↓
+    Options Includes ExecCGI FollowSymLinks　←　CGI,SSIの許可
+
+#
+# AllowOverride controls what directives may be placed in .htaccess files.
+# It can be "All", "None", or any combination of the keywords:
+#   Options FileInfo AuthConfig Limit
+#
+    AllowOverride None
+　　↓
+    AllowOverride All　←　.htaccessの許可
+
+#
+# The following directives define some format nicknames for use with
+# a CustomLog directive (see below).
+#
+LogFormat "%h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\"" combined
+↓
+LogFormat "%h %l %u %t \"%!414r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\"" combined　←　長すぎるURI(414エラー)はログに記録しない
+
+#
+# For a single logfile with access, agent, and referer information
+# (Combined Logfile Format), use the following directive:
+#
+SetEnvIf Request_URI "default\.ida" no_log　←　追加(wormからのアクセスをログに記録しない)
+SetEnvIf Request_URI "cmd\.exe" no_log　←　〃
+SetEnvIf Request_URI "root\.exe" no_log　←　〃
+SetEnvIf Request_URI "Admin\.dll" no_log　←　〃
+SetEnvIf Request_URI "NULL\.IDA" no_log　←　〃
+SetEnvIf Remote_Addr 192.168.1 no_log　←　追加(内部からのアクセスをログに記録しない)
+SetEnvIf Remote_Addr 127.0.0.1 no_log　←　追加(自ホストからのアクセスをログに記録しない)
+CustomLog logs/access_log combined env=!no_log　←　上記以外のアクセスをログに記録する
+
+AddDefaultCharset UTF-8
+↓
+#AddDefaultCharset UTF-8　←　コメントアウト(文字化け対応)
+
+#AddHandler cgi-script .cgi
+↓
+AddHandler cgi-script .cgi .pl　←　CGIスクリプトに.plを追加
+
+以下を最終行に追加
+TraceEnable off　←　Traceメソッドを無効化（クロスサイトトレーシング対策）
+
+[root@centos ~]# vi /etc/httpd/conf.d/autoindex.conf　←　autoindex設定ファイル編集
+<Directory "/usr/share/httpd/icons">
+    Options MultiViews　←　iconsディレクトリのファイル一覧を表示しないようにする
+    AllowOverride None
+    Require all granted
+</Directory>
+
+[root@centos ~]# rm -f /etc/httpd/conf.d/welcome.conf　←　テストページ削除
+
+
+[root@centos ~]# rm -f /etc/httpd/conf.d/welcome.conf　←　テストページ削除
+
+[root@centos ~]# rm -f /var/www/error/noindex.html　←　テストページ削除
+
+（２）Perlコマンドへ/usr/local/bin/perlでもアクセスできるようにする。
+
+[root@centos ~]# ln -s /usr/bin/perl /usr/local/bin/perl　←　/usr/local/bin/perlから/usr/bin/perlへリンクをはる
+
+[root@centos ~]# whereis perl　←　Perlのパスを確認
+perl: /usr/bin/perl /usr/local/bin/perl /usr/share/man/man1/perl.1.gz　←　Perlのパスに/usr/local/bin/perlが表示されることを確認
+
+（３）ドキュメントルート所有者変更
+
+ドキュメントルート所有者をWebコンテンツ編集ユーザーに変更する。
+[root@centos ~]# chown centos. /var/www/html/　←　ドキュメントルート所有者を変更(centosは例)
+
+[root@centos ~]# ll /var/www/　←　ドキュメントルート所有者変更確認
+合計 24
+drwxr-xr-x  2 root      root      4096 10月  5 11:45 cgi-bin
+drwxr-xr-x  3 root      root      4096 10月  9 00:19 error
+drwxr-xr-x  5 centos    centos    4096  9月 27 17:43 html
+drwxr-xr-x  3 root      root      4096  9月 27 09:29 icons
+
+
+Apache起動
+
+[root@centos ~]# systemctl start httpd.service
+[root@centos ~]# systemctl enable httpd.service
+
+[root@centos ~]# firewall-cmd --zone=public --add-service=http --permanent
+[root@centos ~]# firewall-cmd --reload
+
+Node.js インストール
+
+[root@centos ~]# dnf install -y nodejs
+[root@centos ~]# node --version
+[root@centos ~]# npm version
+[root@centos ~]# mkdir pbl2app
+[root@centos ~]# cd pbl2app
+[root@centos pbl2app]# npm init
+entry point: (index.js) app.js
+[root@centos pbl2app]# npm install -g express
+[root@centos pbl2app]# npm install -g express-generator
+[root@centos pbl2app]# express Mindmap
+[root@centos pbl2app]# cd Mindmap
+[root@centos Mindmap]# npm install
+[root@centos Mindmap]# firewall-cmd --add-port=3000/tcp --zone=public --permanent
+[root@centos Mindmap]# firewall-cmd --reload
+[root@centos Mindmap]# npm start
+
+ブラウザからhttp://IPアドレス:3000 に接続テスト
+
+apacheからnodeへproxyする
+
+[root@centos ~]# ln -s /pbl2app/Mindmap /var/www/node
+[root@centos ~]# node /var/www/node/app.js
+[root@centos ~]# vi /etc/httpd/conf/httpd.conf
+
+<IfModule mod_proxy.c>
+    ProxyPass /pbl2app/Mindmap http://IPアドレス:3000
+    ProxyPassReverse /pbl2app/Mindmap http://IPアドレス:3000
+</IfModule>
+
+[root@centos ~]# systemctl restart httpd.service
+[root@centos ~]# sestatus -b | grep httpd // 設定を確認
+[root@centos ~]# /usr/sbin/setsebool -P httpd_can_network_connect 1
+[root@centos ~]# service httpd restart
+[root@centos ~]# sestatus -b | grep httpd // onになってるの確認
+
+node動かすのに、forever使って常駐させる。
+
+[root@centos ~]# cd pbl2app/Mindmap
+[root@centos Mindmap]# npm install forever -g
+[root@centos Mindmap]# forever start app.js
+[root@centos Mindmap]# npm install --save sequelize
+[root@centos Mindmap]# npm install -g sequelize-cli
+[root@centos Mindmap]# npm install --save mysql2
+[root@centos Mindmap]# systemctl start mysqld.service
+[root@centos Mindmap]# mysql
+
+MariaDB [(none)]> create database Mindmap;
+MariaDB [(none)]> show databases;
+
+[root@centos Mindmap]# npx sequelize-cli init
+[root@centos Mindmap]# cd config
+[root@centos config]# vi config.json
+
+{
+  "development": {
+    "username": "root",
+    "password": null,
+    "database": "Mindmap",
+    "host": "localhost",
+    "dialect": "mysql",
+    "operatorsAliases": 0
+  },
+  "test": {
+    "username": "root",
+    "password": null,
+    "database": "Mindmap",
+    "host": "localhost",
+    "dialect": "mysql",
+    "operatorsAliases": 0
+  },
+  "production": {
+    "username": "root",
+    "password": null,
+    "database": "Mindmap",
+    "host": "localhost",
+    "dialect": "mysql",
+    "operatorsAliases": 0
+  }
+}
+
+[root@centos Mindmap]# npm install --save passport
+[root@centos Mindmap]# npm install --save passport-local
+[root@centos Mindmap]# npm install --save bcrypt
+[root@centos Mindmap]# npm install --save express-session
+[root@centos Mindmap]# npm install --save connect-flash
+[root@centos Mindmap]# npm install --save cookie-ProxyPassReverse
+[root@centos Mindmap]# npm install --save express-validator
+[root@centos Mindmap]# npm install --save nodemailer
+[root@centos Mindmap]# npm install --save mustache-express
+[root@centos Mindmap]# npx sequelize-cli model:generate --name User --attributes name:string,email:string,emailVerifiedAt:date,password:string,rememberToken:string
+[root@centos Mindmap]# vi models/user.js
+
+'use strict';
+const {
+  Model
+} = require('sequelize');
+module.exports = (sequelize, DataTypes) => {
+  class User extends Model {
+    /**
+     * Helper method for defining associations.
+     * This method is not a part of Sequelize lifecycle.
+     * The `models/index` file will call this method automatically.
+     */
+    static associate(models) {
+      // define association here
+    }
+  };
+  User.init({
+    name: DataTypes.STRING,
+    email: DataTypes.STRING,
+    emailVerifiedAt: DataTypes.DATE,
+    password: DataTypes.STRING,
+    rememberToken: DataTypes.STRING
+  }, {
+    sequelize,
+    modelName: 'Users',
+  });
+  return User;
+};
+
+[root@centos Mindmap]# npx sequelize-cli db:migrate
+[root@centos Mindmap]# cd views
+[root@centos views]# mkdir login
+[root@centos views]# mkdir auth

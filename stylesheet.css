@@ -1,0 +1,147 @@
+* {
+    font-family: "M PLUS Rounded 1c";
+}
+
+
+/*----------------------------------------------------*/
+
+header {
+    text-align: center;
+    height: 88px;
+    width: 100%;
+    background-color: rgba(34, 49, 52, 0.9);
+    padding: 0 0;
+    margin-bottom: 30px;
+}
+
+header h1 {
+    margin: 0 0;
+}
+
+.header-left {
+    margin: 20px 0 20px 5px;
+    float: left;
+}
+
+.header-left a {
+    color: white;
+}
+
+.header-left:hover {
+    opacity: 0.5;
+}
+
+.header-left a:hover {
+    color: white;
+    text-decoration: none;
+}
+
+.header-left h1:hover {
+    text-decoration: none;
+}
+
+.header-right {
+    float: right;
+    display: flex;
+}
+
+.btn-header {
+    float: left;
+    color: bisque;
+    width: 70px;
+    padding: 8px 1px;
+    letter-spacing: 1px;
+}
+
+.btn-header:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+    text-decoration: none;
+    color: bisque;
+}
+
+.create-new-header {
+    letter-spacing: 2px;
+}
+
+.configuration-header {
+    letter-spacing: 5px;
+    line-height: 72px;
+}
+
+.register-header {
+    line-height: 72px;
+}
+
+.login-header {
+    line-height: 72px;
+    /*margin-left: 70px;*/
+}
+
+.logout-header {
+    line-height: 72px;
+    font-size: 13px;
+}
+
+
+/*----------------------------------------------------*/
+
+a {
+    text-decoration: none;
+}
+
+.main {
+    text-align: center;
+}
+
+.buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.btn-main {
+    padding: 12px 22px;
+    margin: 10px 0;
+    width: 50%;
+    color: black;
+    opacity: 0.7;
+    border-radius: 10px;
+    font-size: 20px;
+    letter-spacing: 5px;
+}
+
+.btn-main:hover {
+    padding: 10px 20px;
+    border-style: solid;
+    border-width: 2px;
+    border-color: red;
+    opacity: 1;
+}
+
+.everyone-idea {
+    background-color: #99B2FF;
+}
+
+.my-idea {
+    background-color: #99B2FF;
+}
+
+.create-new {
+    background-color: #FFB299;
+}
+
+.configuration {
+    background-color: #B2FF99;
+}
+
+
+/*----------------------------------------------------*/
+
+footer {
+    margin-top: 30px;
+    border-top: 2px solid #CCCCCC;
+}
+
+footer h3 {
+    float: right;
+}

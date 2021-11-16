@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="ja">
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ログイン・フォーム</title>
+    <link rel="stylesheet" href="/stylesheets/stylesheet.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=M+PLUS+Rounded+1c">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <header style="width: 100%;">
+        <div class="container">
+            <div class="header-left">
+                <a href="/mindmap">
+                    <h1>みんなのマインドマップ</h1>
+                </a>
+            </div>
+            <div class="header-right">
+                <a href="/login" class="btn-header login-header">ログイン</a>
+                <a href="/login" class="btn-header everyone-idea-header">みんなのアイデアを見る</a>
+                <a href="/login" class="btn-header my-idea-header">自分のアイデアを見る</a>
+                <a href="/login" class="btn-header create-new-header">アイデアを新規作成</a>
+                <a href="/login" class="btn-header configuration-header">設定</a>
+            </div>
+        </div>
+    </header>
+
+    <div id="app">
+        <div class="card-body">
+            <div class="form-group row">
+                <label for="name" class="col-md-4 col-form-label text-md-right">名前</label>
+                <div class="col-md-6">
+                    <input type="text" class="form-control" v-model="params.name">
+                    <div class="alert alert-danger" v-if="errors.name" v-text="errors.name"></div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="email" class="col-md-4 col-form-label text-md-right">メールアドレス</label>
+                <div class="col-md-6">
+                    <input type="email" class="form-control" v-model="params.email">
+                    <div class="alert alert-danger" v-if="errors.email" v-text="errors.email"></div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="password" class="col-md-4 col-form-label text-md-right">パスワード</label>
+                <div class="col-md-6">
+                    <input type="password" class="form-control" v-model="params.password">
+                    <div class="alert alert-danger" v-if="errors.password" v-text="errors.password"></div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="password-confirm" class="col-md-4 col-form-label text-md-right">パスワード（確認）</label>
+                <div class="col-md-6">
+                    <input type="password" class="form-control" v-model="params.passwordConfirmation">
+                    <div class="alert alert-danger" v-if="errors.passwordConfirmation" v-text="errors.passwordConfirmation"></div>
+                </div>
+            </div>
+            <div class="form-group row mb-0">
+                <div class="col-md-6 offset-md-4">
+                    <button type="submit" class="btn btn-primary" @click="onSubmit">登録する</button>
+                </div>
+            </div>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
+        <script>
+            new Vue({
+                el: '#app',
+                data: {
+                    params: {
+                        name: '',
+                        email: '',
+                        password: '',
+                        passwordConfirmation: ''
+                    },
+                    errors: {}
+                },
+                methods: {
+                    onSubmit() {
+
+                        this.errors = {
+                            name: '',
+                            email: '',
+                            password: '',
+                            passwordConfirmation: ''
+                        };
+
+                        axios.post('/register', this.params)
+                            .then(response => {
+
+                                if (response.data.result) {
+
+                                    alert('入力されたメールアドレスにメッセージ送信しました。');
+
+                                }
+
+                            })
+                            .catch(error => {
+
+                                const errors = error.response.data.errors;
+
+                                errors.forEach(error => {
+
+                                    const key = error.param;
+
+                                    if (this.errors[key] === '') {
+
+                                        this.errors[key] = error.msg;
+
+                                    }
+
+                                });
+
+                            });
+
+                    }
+                }
+            });
+        </script>
+</body>
+
+</html>
