@@ -22,6 +22,14 @@ const connection = mysql.createConnection({
     port: '3306'
 });
 
+connection.connect((err) => {
+    if (err) {
+        console.log('error connecting: ' + err.stack);
+        return;
+    }
+    console.log('Server connecting success');
+});
+
 const mustacheExpress = require('mustache-express');
 const { error } = require('console');
 
@@ -339,15 +347,62 @@ app.get('/create_new_idea', (req, res) => {
     res.render('create_new_idea.ejs');
 });
 
-app.get('/configuration', (req, res) => {
+/*-----------------------------------------------------*/
+//ユーザー情報変更機能
+const changeValidationRules = [
+    check('name')
+    .not().isEmpty().withMessage('この項目は必須入力です。'),
+    check('email')
+    .not().isEmpty().withMessage('この項目は必須入力です。')
+    .isEmail().withMessage('有効なメールアドレス形式で指定してください。'),
+    check('password')
+    .not().isEmpty().withMessage('この項目は必須入力です。')
+    .isLength({ min: 8, max: 25 }).withMessage('8文字から25文字にしてください。')
+    .custom((value, { req }) => {
+
+        if (req.body.password !== req.body.passwordConfirmation) {
+
+            throw new Error('パスワード（確認）と一致しません。');
+
+        }
+
+        return true;
+
+    })
+];
+
+app.post('/change', changeValidationRules, (req, res) => {
+    const errors = validationResult(req);
+
+    console.log(errors);
+
+    if (!errors.isEmpty()) { // バリデーション失敗
+
+        return res.status(422).json({ errors: errors.array() });
+
+    }
+
+    const password2 = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(8));
     console.log(req.user.id);
+    connection.query(
+        `UPDATE Users SET name = "${req.body.name}", email = "${req.body.email}, password = "${password2}" WHERE id = ${req.user.id}`,
+        (error, results) => {
+            res.redirect('/configuration');
+        }
+    );
+
+});
+
+app.get('/configuration', (req, res) => {
     connection.query(
         `SELECT * FROM Users WHERE id = ${req.user.id}`,
         (error, results) => {
             res.render('configuration.ejs', { login_user: results });
         }
-    )
+    );
 });
+
+/*-----------------------------------------------------*/
 
 app.listen(port, () => {
     console.log(`Mindmap app listening at http://localhost:${port}`);

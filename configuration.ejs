@@ -34,24 +34,48 @@
             </div>
             <div class="table-body">
                 <% login_user.forEach((user)=> {%>
-                    <div class="user-data">
-                        <div class="data name-column">
-                            名前：
-                            <%= user.name %>
+                    <form action="/change" method="post">
+                        <div class="user-data">
+                            <div class="data name-column">
+                                名前：
+                                <%= user.name %>
+                                    <br>
+                                    <label for="changeName">名前を変更</label>
+                                    <input class="change-data" type="text" name="name" id="changeName">
+                            </div>
+                            <div class="data email-column">
+                                メールアドレス：
+                                <%= user.email %>
+                                    <br>
+                                    <label for="changeEmail">メールアドレスを変更</label>
+                                    <input class="change-data" type="text" name="email" id="changeEmail">
+                                    <div class="alert alert-danger"></div>
+                            </div>
+                            <div class="data password-column">
+                                <label for="changePassword">パスワードを変更</label>
+                                <input class="change-data" type="password" name="password" id="changePassword">
+                                <div class="alert alert-danger"></div>
+
+                                <label for="changePasswordConfirm">パスワードを変更（確認）</label>
+                                <input class="change-data" type="password" name="passwordConfirmation" id="changePasswordConfirm">
+                                <div class="alert alert-danger"></div>
+                            </div>
+                            <div class="data change-column">
+                                <input class="change-data" type="submit" value="変更する">
+                            </div>
+                            <div class="data create-column">
+                                登録日時：
+                                <%= user.createdAt %>
+                            </div>
+                            <div class="data update-column">
+                                更新日時：
+                                <%= user.updatedAt %>
+                            </div>
                         </div>
-                        <div class="data email-column">
-                            メールアドレス：
-                            <%= user.email %>
-                        </div>
-                        <div class="data create-column">
-                            登録日時：
-                            <%= user.createdAt %>
-                        </div>
-                    </div>
-                    <% }) %>
+                    </form>
+                    <% }); %>
             </div>
         </div>
-
     </div>
 
     <footer>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="refresh" content=" 5; url = /configuration">
+    <title>みんなのマインドマップ</title>
+    <link rel="stylesheet" href="/stylesheets/stylesheet.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=M+PLUS+Rounded+1c">
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <div class="header-left">
+                <a href="#">
+                    <h1>みんなのマインドマップ</h1>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <div class="main">
+        <div class="container">
+            <div class="heading">
+                <h2>変更完了<br> 5秒後に設定画面に戻ります。
+                </h2>
+            </div>
+            <div class="table-body">
+                <% changed_user.forEach((user)=> {%>
+                    <div class="data name-column">
+                        変更後の名前：
+                        <%= user.name %>
+                    </div>
+                    <div class="data email-column">
+                        変更後のメールアドレス：
+                        <%= user.email %>
+                    </div>
+                    <% }); %>
+
+                        <h3><a href="#" onclick="history.back(-1);return false;">戻る</a></h3>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <h3>チームG</h3>
+    </footer>
+</body>
+
+</html>

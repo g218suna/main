@@ -152,6 +152,19 @@ a {
     margin: 10px 0;
 }
 
+.change-data {
+    border-style: none;
+    border-radius: 10px;
+    background-color: #FFCCFF;
+    font-size: 15px;
+    width: 100%;
+    text-align: center;
+}
+
+.change-data:hover {
+    background-color: #E5E5E5;
+}
+
 
 /*----------------------------------------------------*/
 
