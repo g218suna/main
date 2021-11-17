@@ -13,8 +13,17 @@ const nodemailer = require('nodemailer');
 const bcrypt = require('bcrypt');
 const crypto = require('crypto');
 const User = require('./models').Users;
+const mysql = require('mysql');
+const connection = mysql.createConnection({
+    host: 'localhost',
+    user: 'root',
+    password: '',
+    database: 'Mindmap',
+    port: '3306'
+});
 
 const mustacheExpress = require('mustache-express');
+const { error } = require('console');
 
 app.use(express.static('public'));
 
@@ -285,7 +294,7 @@ app.get('/verify/:id/:hash', (req, res) => {
                     .digest('hex');
                 const isCorrectHash = (hash === req.params.hash);
                 const isExpired = (now.getTime() > parseInt(req.query.expires));
-                const verificationUrl = 'http://192.168.2.192:3000' + req.originalUrl.split('&signature=')[0];
+                const verificationUrl = 'http://192.168.2.197:3000' + req.originalUrl.split('&signature=')[0];
                 const signature = crypto.createHmac('sha256', APP_KEY)
                     .update(verificationUrl)
                     .digest('hex');
@@ -331,11 +340,17 @@ app.get('/create_new_idea', (req, res) => {
 });
 
 app.get('/configuration', (req, res) => {
-    res.render('configuration.ejs');
+    connection.query(
+        'SELECT * FROM Users',
+        (error, results) => {
+            console.log(results);
+            res.render('configuration.ejs');
+        }
+    )
 });
 
 app.listen(port, () => {
-    console.log(`Example app listening at http://localhost:${port}`);
+    console.log(`Mindmap app listening at http://localhost:${port}`);
 });
 
 
