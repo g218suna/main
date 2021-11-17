@@ -137,6 +137,24 @@ a {
 
 /*----------------------------------------------------*/
 
+.table-body {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.data {
+    padding: 12px 22px;
+    border-radius: 10px;
+    background-color: #D8FFCC;
+    width: 50%;
+    font-size: 20px;
+    margin: 10px 0;
+}
+
+
+/*----------------------------------------------------*/
+
 footer {
     margin-top: 30px;
     border-top: 2px solid #CCCCCC;

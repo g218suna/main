@@ -340,11 +340,11 @@ app.get('/create_new_idea', (req, res) => {
 });
 
 app.get('/configuration', (req, res) => {
+    console.log(req.user.id);
     connection.query(
-        'SELECT * FROM Users',
+        `SELECT * FROM Users WHERE id = ${req.user.id}`,
         (error, results) => {
-            console.log(results);
-            res.render('configuration.ejs');
+            res.render('configuration.ejs', { login_user: results });
         }
     )
 });
