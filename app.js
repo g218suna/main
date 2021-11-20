@@ -371,7 +371,7 @@ const changeValidationRules = [
     })
 ];
 
-app.post('/change', changeValidationRules, (req, res) => {
+app.post('/change/:id', changeValidationRules, (req, res) => {
     const errors = validationResult(req);
 
     console.log(errors);
@@ -382,10 +382,9 @@ app.post('/change', changeValidationRules, (req, res) => {
 
     }
 
-    const password2 = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(8));
-    console.log(req.user.id);
     connection.query(
-        `UPDATE Users SET name = "${req.body.name}", email = "${req.body.email}, password = "${password2}" WHERE id = ${req.user.id}`,
+        `UPDATE Users SET name = ?, email = ?, password = ? WHERE id = ${req.user.id}`,
+        [req.params.name, req.params.email, bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(8))],
         (error, results) => {
             res.redirect('/configuration');
         }
@@ -397,9 +396,17 @@ app.get('/configuration', (req, res) => {
     connection.query(
         `SELECT * FROM Users WHERE id = ${req.user.id}`,
         (error, results) => {
-            res.render('configuration.ejs', { login_user: results });
+            res.rend
+            er('configuration.ejs', { login_user: results });
         }
     );
+});
+
+/*-----------------------------------------------------*/
+
+app.post('/delete/:id', (req, res) => {
+
+    res.redirect('/login') ;
 });
 
 /*-----------------------------------------------------*/

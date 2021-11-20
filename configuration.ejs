@@ -34,7 +34,7 @@
             </div>
             <div class="table-body">
                 <% login_user.forEach((user)=> {%>
-                    <form action="/change" method="post">
+                    <form action="/change/<%=user.id%>" method="post">
                         <div class="user-data">
                             <div class="data name-column">
                                 名前：
@@ -79,6 +79,11 @@
     </div>
 
     <footer>
+        <div class="buttons">
+            <form action="/delete/<%=user.id%>" method="post">
+                <input type="submit" value="ユーザー削除">
+            </form>
+        </div>
         <h3>チームG</h3>
     </footer>
 </body>
