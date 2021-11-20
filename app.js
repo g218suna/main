@@ -384,7 +384,7 @@ app.post('/change/:id', changeValidationRules, (req, res) => {
 
     connection.query(
         `UPDATE Users SET name = ?, email = ?, password = ? WHERE id = ${req.user.id}`,
-        [req.params.name, req.params.email, bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(8))],
+        [req.params.name, req.params.email, bcrypt.hashSync(req.params.password, bcrypt.genSaltSync(8)), req.params.id],
         (error, results) => {
             res.redirect('/configuration');
         }
