@@ -67,10 +67,6 @@
                                 登録日時：
                                 <%= user.createdAt %>
                             </div>
-                            <div class="data update-column">
-                                更新日時：
-                                <%= user.updatedAt %>
-                            </div>
                         </div>
                     </form>
                     <% }); %>
@@ -80,9 +76,11 @@
 
     <footer>
         <div class="buttons">
-            <form action="/delete/<%=user.id%>" method="post">
-                <input type="submit" value="ユーザー削除">
-            </form>
+            <% login_user.forEach((user)=> {%>
+                <form action="/delete/<%=user.id%>" method="post">
+                    <input class="delete" type="submit" value="ユーザー削除">
+                </form>
+                <% }); %>
         </div>
         <h3>チームG</h3>
     </footer>

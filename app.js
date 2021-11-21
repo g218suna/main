@@ -381,10 +381,9 @@ app.post('/change/:id', changeValidationRules, (req, res) => {
         return res.status(422).json({ errors: errors.array() });
 
     }
-
+    const password2 = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(8));
     connection.query(
-        `UPDATE Users SET name = ?, email = ?, password = ? WHERE id = ${req.user.id}`,
-        [req.params.name, req.params.email, bcrypt.hashSync(req.params.password, bcrypt.genSaltSync(8)), req.params.id],
+        `UPDATE Users SET name = "${req.body.name}", email = "${req.body.email}", password = "${password2}" WHERE id = ${req.params.id}`,
         (error, results) => {
             res.redirect('/configuration');
         }
@@ -396,8 +395,7 @@ app.get('/configuration', (req, res) => {
     connection.query(
         `SELECT * FROM Users WHERE id = ${req.user.id}`,
         (error, results) => {
-            res.rend
-            er('configuration.ejs', { login_user: results });
+            res.render('configuration.ejs', { login_user: results });
         }
     );
 });
@@ -405,8 +403,12 @@ app.get('/configuration', (req, res) => {
 /*-----------------------------------------------------*/
 
 app.post('/delete/:id', (req, res) => {
-
-    res.redirect('/login') ;
+    connection.query(
+        `DELETE FROM Users WHERE id = ${req.params.id}`,
+        (error, results) => {
+            res.redirect('/login');
+        }
+    );
 });
 
 /*-----------------------------------------------------*/
