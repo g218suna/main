@@ -137,7 +137,7 @@ a {
 
 /*----------------------------------------------------*/
 
-.table-body {
+.user-data {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
