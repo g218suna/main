@@ -13,7 +13,7 @@ const nodemailer = require('nodemailer');
 const bcrypt = require('bcrypt');
 const crypto = require('crypto');
 const User = require('./models').Users;
-const mysql = require('mysql');
+const mysql = require('mysql2');
 const connection = mysql.createConnection({
     host: 'localhost',
     user: 'root',
