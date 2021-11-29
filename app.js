@@ -302,7 +302,7 @@ app.get('/verify/:id/:hash', (req, res) => {
                     .digest('hex');
                 const isCorrectHash = (hash === req.params.hash);
                 const isExpired = (now.getTime() > parseInt(req.query.expires));
-                const verificationUrl = 'http://192.168.2.197:3000' + req.originalUrl.split('&signature=')[0];
+                const verificationUrl = 'http://192.168.2.198:3000' + req.originalUrl.split('&signature=')[0];
                 const signature = crypto.createHmac('sha256', APP_KEY)
                     .update(verificationUrl)
                     .digest('hex');
@@ -385,7 +385,7 @@ app.post('/change/:id', changeValidationRules, (req, res) => {
     connection.query(
         `UPDATE Users SET name = "${req.body.name}", email = "${req.body.email}", password = "${password2}" WHERE id = ${req.params.id}`,
         (error, results) => {
-            res.redirect('/configuration');
+            res.redirect('/configuration', { login_user: results });
         }
     );
 

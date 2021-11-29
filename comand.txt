@@ -235,3 +235,6 @@ module.exports = (sequelize, DataTypes) => {
 [root@centos Mindmap]# cd views
 [root@centos views]# mkdir login
 [root@centos views]# mkdir auth
+
+マインドマップデータベース作成
+[root@centos Mindmap]# npx sequelize-cli db:migrate
