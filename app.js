@@ -12,8 +12,15 @@ const { check, validationResult } = require('express-validator');
 const nodemailer = require('nodemailer');
 const bcrypt = require('bcrypt');
 const crypto = require('crypto');
+
+const Sequelize = require('sequelize');
+const Op = Sequelize.Op;
 const User = require('./models').Users;
-const mysql = require('mysql2');
+const IdeaSheets = require('./models').IdeaSheets;
+const IdeaNodes = require('./models').IdeaNodes;
+const IdeaBranches = require('./models').IdeaBranches;
+
+const mysql = require('mysql');
 const connection = mysql.createConnection({
     host: 'localhost',
     user: 'root',
@@ -336,12 +343,39 @@ app.get('/register', (req, res) => {
 /*-----------------------------------------------------*/
 
 app.get('/everyone_idea', (req, res) => {
-    res.render('everyone_idea.ejs');
+    IdeaSheets.findAll({
+        where: {
+            [Op.or]: {
+                id: req.user.id,
+                sharingSetting: true
+            }
+        }
+    }).then(idea => {
+        res.render('everyone_idea.ejs', { idea_list: idea });
+    });
 });
 
+/*-----------------------------------------------------*/
+
 app.get('/my_idea', (req, res) => {
-    res.render('my_idea.ejs');
+    IdeaSheets.findAll({
+        where: {
+            id: req.user.id
+        }
+    }).then(idea => {
+        res.render('my_idea.ejs', { idea_list: idea });
+    });
+
 });
+
+app.post('/sharingSetting_change/:rootID', (req, res) => {
+    IdeaSheets.update({ sharingSetting: req.body.sharingSetting }, { where: { rootID: req.params.rootID } }).then(() => {
+        res.redirect('/my_idea');
+    });
+
+});
+
+/*-----------------------------------------------------*/
 
 app.get('/create_new_idea', (req, res) => {
     res.render('create_new_idea.ejs');

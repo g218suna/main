@@ -34,13 +34,43 @@
                 <h2>自分のアイデアを見る</h2>
             </div>
 
+            <% idea_list.forEach((idea_list)=> { %>
+                <form action="/sharingSetting_change/<%= idea_list.rootId %>" method="post" id="settingBox">
+                    <div class="idea-list">
+                        <a href="#" class="data-idea nickName">
+                            <span class="idea-list-label">ニックネーム　</span>
+                            <%= idea_list.nickName %>
+                        </a>
+                        <a href="#" class="data-idea title">
+                            <span class="idea-list-label">タイトル　</span>
+                            <%= idea_list.title %>
+                        </a>
+                        <a href="#" class="data-idea rootName">
+                            <span class="idea-list-label">中心テーマ　</span>
+                            <%= idea_list.rootName %>
+                        </a>
+                        <div class="data-idea sharing">
+                            <span class="idea-list-label">現在の設定</span>
+                            <span>
+                                <% let sharing; if(idea_list.sharingSetting==true){sharing="公開" }else
+                                    if(idea_list.sharingSetting==false){sharing="非公開" }; %>
+                                    <%= sharing %>
+                            </span>
+                            <br>
+                            <input type="radio" name="sharingSetting" value="true">
+                            <span class="idea-list-label">公開</span>
+                            <input type="radio" name="sharingSetting" value="false">
+                            <span class="idea-list-label">非公開</span>
+                            <input type="submit" value="変更する">
+                        </div>
+                    </div>
+                </form>
+                <% }); %>
         </div>
 
-    </div>
-
-    <footer>
-        <h3>チームG</h3>
-    </footer>
+        <footer>
+            <h3>チームG</h3>
+        </footer>
 </body>
 
 </html>

@@ -137,6 +137,56 @@ a {
 
 /*----------------------------------------------------*/
 
+.idea-list {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    background-color: #E5E5E5;
+    margin: 10px 0;
+}
+
+.data-idea {
+    padding: 12px 22px;
+    border-radius: 10px;
+    font-size: 20px;
+    margin: 10px 10px;
+    color: black;
+    opacity: 0.8;
+}
+
+.data-idea:hover {
+    padding: 10px 20px;
+    border-style: solid;
+    border-width: 2px;
+    border-color: red;
+    opacity: 1;
+}
+
+.idea-list-label {
+    color: #7F7F7F;
+    font-size: 15px;
+}
+
+.nickName {
+    background-color: #D8FFCC;
+}
+
+.title {
+    background-color: #99B2FF;
+}
+
+.rootName {
+    background-color: #FFB299;
+}
+
+.sharing {
+    background-color: #FFCCFF;
+}
+
+
+/*----------------------------------------------------*/
+
 .user-data {
     display: flex;
     flex-wrap: wrap;
