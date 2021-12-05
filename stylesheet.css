@@ -163,9 +163,36 @@ a {
     opacity: 1;
 }
 
+.idea-delete {
+    border-style: none;
+    padding: 8px 20px;
+    margin: 0 10px;
+    border-radius: 10px;
+    font-size: 15px;
+    background-color: #B2B2B2;
+    color: black;
+    opacity: 0.8;
+}
+
+.idea-delete:hover {
+    padding: 6px 18px;
+    border-style: solid;
+    border-width: 2px;
+    border-color: red;
+    opacity: 1;
+}
+
 .idea-list-label {
     color: #7F7F7F;
     font-size: 15px;
+}
+
+.edit-delete-btn {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin: 10px 0;
 }
 
 .nickName {
@@ -182,6 +209,21 @@ a {
 
 .sharing {
     background-color: #FFCCFF;
+}
+
+
+/*----------------------------------------------------*/
+
+.create-idea-text {
+    border-style: none;
+    border-radius: 10px;
+    font-size: 15px;
+    width: 100%;
+    text-align: center;
+}
+
+.create {
+    justify-content: center;
 }
 
 

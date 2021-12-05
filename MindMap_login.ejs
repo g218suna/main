@@ -1,32 +1,4 @@
-<!DOCTYPE html>
-<html lang="ja">
-
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>みんなのマインドマップ</title>
-    <link rel="stylesheet" href="/stylesheets/stylesheet.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=M+PLUS+Rounded+1c">
-</head>
-
-<body>
-    <header>
-        <div class="container">
-            <div class="header-left">
-                <a href="/mindmap">
-                    <h1>みんなのマインドマップ</h1>
-                </a>
-            </div>
-            <div class="header-right">
-                <a href="/register" class="btn-header register-header">登録</a>
-                <a href="/login" class="btn-header login-header">ログイン</a>
-                <a href="/login" class="btn-header everyone-idea-header">みんなのアイデアを見る</a>
-                <a href="/login" class="btn-header my-idea-header">自分のアイデアを見る</a>
-                <a href="/login" class="btn-header create-new-header">アイデアを新規作成</a>
-                <a href="/login" class="btn-header configuration-header">設定</a>
-            </div>
-        </div>
-    </header>
+<%- include('partials/header.ejs'); %>
 
     <div class="main">
         <div class="container">
@@ -43,9 +15,4 @@
 
     </div>
 
-    <footer>
-        <h3>チームG</h3>
-    </footer>
-</body>
-
-</html>
+    <%- include('partials/footer.ejs'); %>

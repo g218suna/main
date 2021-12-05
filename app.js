@@ -42,6 +42,9 @@ const { error } = require('console');
 
 app.use(express.static('public'));
 
+app.set('view engine', 'ejs');
+app.set('views', __dirname + '/views/ideaPage');
+
 app.engine('mst', mustacheExpress());
 app.set('view engine', 'mst');
 app.set('views', __dirname + '/views');
@@ -375,10 +378,50 @@ app.post('/sharingSetting_change/:rootID', (req, res) => {
 
 });
 
+app.get('/idea_edit/:rootID', (req, res) => {
+    IdeaSheets.findAll({
+        where: { rootID: req.params.rootID }
+    }).then(() => {
+        res.render('ideaPage/' + req.params.rootID + '.ejs');
+    });
+});
+
+app.post('/idea_delete/:rootID', (req, res) => {
+    IdeaSheets.destroy({
+        where: { rootID: req.params.rootID }
+    }).then(() => {
+        res.redirect('/my_idea');
+    });
+});
+
 /*-----------------------------------------------------*/
 
 app.get('/create_new_idea', (req, res) => {
-    res.render('create_new_idea.ejs');
+    connection.query(
+        `SELECT * FROM Users WHERE id = ${req.user.id}`,
+        (error, results) => {
+            res.render('create_new_idea.ejs', { create_idea: results });
+        }
+    );
+});
+
+app.post('/create/:id', (req, res) => {
+    IdeaSheets.create({
+        id: req.body.id,
+        email: req.body.email,
+        nickName: req.body.nickName,
+        title: req.body.title,
+        rootName: req.body.rootName,
+        sharingSetting: req.body.sharingSetting,
+        createdAt: new Date(),
+        updatedAt: new Date()
+    }).then(() => {
+        res.redirect('/my_idea');
+    });
+});
+
+app.get('/createPage', (req, res) => {
+
 });
 
 /*-----------------------------------------------------*/
@@ -416,13 +459,9 @@ app.post('/change/:id', changeValidationRules, (req, res) => {
 
     }
     const password2 = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(8));
-    connection.query(
-        `UPDATE Users SET name = "${req.body.name}", email = "${req.body.email}", password = "${password2}" WHERE id = ${req.params.id}`,
-        (error, results) => {
-            res.redirect('/configuration', { login_user: results });
-        }
-    );
-
+    User.update({ name: req.body.name, email: req.body.email, password: password2 }, { where: { id: req.params.id } }).then(() => {
+        res.redirect('/configuration');
+    });
 });
 
 app.get('/configuration', (req, res) => {
