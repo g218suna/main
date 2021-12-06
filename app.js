@@ -416,12 +416,16 @@ app.post('/create/:id', (req, res) => {
         createdAt: new Date(),
         updatedAt: new Date()
     }).then(() => {
-        res.redirect('/my_idea');
+        res.redirect('/createPage');
     });
 });
 
 app.get('/createPage', (req, res) => {
-
+    IdeaSheets.max('rootID').then(maxRootId => {
+        IdeaSheets.update({ pageURL: maxRootId + '.ejs' }, { where: { rootID: maxRootId } }).then(() => {
+            res.redirect('/my_idea');
+        });
+    });
 });
 
 /*-----------------------------------------------------*/

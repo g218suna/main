@@ -1,1 +1,0 @@
-<%- include('/home/sunamoto/pbl2App/Mindmap/views/partials/header.ejs'); %><div class="main"><div class="container"><div class="heading"><h2></h2></div></div><%- include('/home/sunamoto/pbl2App/Mindmap/views/partials/footer.ejs'); %>
