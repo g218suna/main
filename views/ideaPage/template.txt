@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="ja">
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,7 +8,6 @@
     <link rel="stylesheet" href="responsive.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=M+PLUS+Rounded+1c">
 </head>
-
 <body>
     <header>
         <div class="container">
@@ -27,38 +25,14 @@
             </div>
         </div>
     </header>
-
     <div class="main">
         <div class="container">
             <div class="heading">
-                <h2>
-                    <% ideaPage_data.forEach((ideaPage_data)=> { %>
-                        <%= ideaPage_data.title %>
-                            <%}); %>
-                </h2>
-            </div>
-            <div class="paper">
-                <canvas class="paper-canvas" id="mindmap"></canvas>
+                <h2></h2>
             </div>
         </div>
         <footer>
             <h3>チームG</h3>
         </footer>
-    </div>
-    <script type="text/javascript">
-        getWindowSize();
-
-        window.onresize = getWindowSize;
-
-        function getWindowSize() {
-            var wW = window.innerWidth;
-            var wH = window.innerHeight - 300;
-            var eW = document.documentElement.clientWidth;
-            var eH = document.documentElement.clientHeight;
-            //document.getElementById("mindmap").style.width = eW + 'px';
-            document.getElementById("mindmap").style.height = wH + 'px';
-        }
-    </script>
 </body>
-
 </html>

@@ -45,10 +45,26 @@
         </div>
     </div>
 
+    <form>
+        <input id="file" type="file" name="file">
+    </form>
+
     <script type="text/javascript">
         let input = document.getElementById('file');
+        let reader = new FileReader();
 
-        input.addEventListener()
+        function fileTest() {
+            for (file of input.files) {
+                reader.readAsText(file);
+                reader.onload = () => {
+                    console.log(reader.result);
+                };
+            }
+        };
+
+        input.addEventListener('change', {
+            handleEvent: fileTest
+        });
 
         var string = '';
     </script>

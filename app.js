@@ -24,7 +24,7 @@ const mysql = require('mysql');
 const connection = mysql.createConnection({
     host: 'localhost',
     user: 'root',
-    password: '',
+    password: 'sd#8931',
     database: 'Mindmap',
     port: '3306'
 });
@@ -39,6 +39,8 @@ connection.connect((err) => {
 
 const mustacheExpress = require('mustache-express');
 const { error } = require('console');
+
+const fs = require('fs');
 
 app.use(express.static('public'));
 
@@ -381,8 +383,8 @@ app.post('/sharingSetting_change/:rootID', (req, res) => {
 app.get('/idea_edit/:rootID', (req, res) => {
     IdeaSheets.findAll({
         where: { rootID: req.params.rootID }
-    }).then(() => {
-        res.render('ideaPage/' + req.params.rootID + '.ejs');
+    }).then((ideaPage_data) => {
+        res.render('ideaPage/' + req.params.rootID + '.ejs', { ideaPage_data: ideaPage_data });
     });
 });
 
@@ -423,6 +425,13 @@ app.post('/create/:id', (req, res) => {
 app.get('/createPage', (req, res) => {
     IdeaSheets.max('rootID').then(maxRootId => {
         IdeaSheets.update({ pageURL: maxRootId + '.ejs' }, { where: { rootID: maxRootId } }).then(() => {
+            fs.copyFile('views/ideaPage/template.ejs', 'views/ideaPage/' + maxRootId + '.ejs', (err) => {
+                if (err) {
+                    console.log(err.stack);
+                } else {
+                    console.log('Done.');
+                }
+            });
             res.redirect('/my_idea');
         });
     });
