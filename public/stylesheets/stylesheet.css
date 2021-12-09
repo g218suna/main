@@ -279,9 +279,7 @@ a {
 /*----------------------------------------------------*/
 
 .paper {
-    border-style: solid;
-    border-color: black;
-    border-width: 1px;
+    border-style: none;
 }
 
 .paper-canvas {
@@ -290,6 +288,168 @@ a {
     border-width: 1px;
     margin: 10px auto;
     width: 100%;
+}
+
+.ctrl2 {
+    border-style: solid;
+    border-color: black;
+    border-width: 1px;
+    margin: 10px auto;
+    line-height: 35px;
+}
+
+
+/*----------------------------------------------------*/
+
+#mindmap {
+    cursor: pointer;
+}
+
+input[type='number'],
+input[type='button'] {
+    padding: 5px;
+    box-sizing: border-box;
+}
+
+#ctrl2 {
+    line-height: 35px;
+}
+
+.wds {
+    display: inline-block;
+    height: 29px;
+    width: 29px;
+    cursor: pointer;
+    vertical-align: bottom;
+}
+
+.wds span {
+    display: inline-block;
+    margin: 2px;
+    width: 23px;
+    border-top-style: solid;
+    border-top-color: #000;
+}
+
+#w1 {
+    border-top-width: 1px;
+}
+
+#w2 {
+    border-top-width: 2px;
+}
+
+#w3 {
+    border-top-width: 3px;
+}
+
+#w4 {
+    border-top-width: 4px;
+}
+
+#w5 {
+    border-top-width: 5px;
+}
+
+#w6 {
+    border-top-width: 6px;
+}
+
+#w7 {
+    border-top-width: 7px;
+}
+
+#w8 {
+    border-top-width: 8px;
+}
+
+#w9 {
+    border-top-width: 9px;
+}
+
+#w10 {
+    border-top-width: 10px;
+}
+
+#w11 {
+    border-top-width: 11px;
+}
+
+#w12 {
+    border-top-width: 12px;
+}
+
+#w13 {
+    border-top-width: 13px;
+}
+
+#width {
+    width: 50px;
+}
+
+span {
+    box-sizing: border-box;
+}
+
+.cls {
+    display: inline-block;
+    height: 29px;
+    width: 29px;
+    border: 1px solid #aaa;
+    cursor: pointer;
+    vertical-align: bottom;
+}
+
+.cls span {
+    display: inline-block;
+    margin: 2px;
+    height: 23px;
+    width: 23px;
+    border: 1px solid #aaa;
+}
+
+#c1 {
+    background: #000;
+}
+
+#c2 {
+    background: #fff;
+}
+
+#c3 {
+    background: #f00;
+}
+
+#c4 {
+    background: #080;
+}
+
+#c5 {
+    background: #00f;
+}
+
+#c6 {
+    background: #800;
+}
+
+#c7 {
+    background: #fd0;
+}
+
+#c8 {
+    background: #fcc;
+}
+
+#c9 {
+    background: #888;
+}
+
+#c10 {
+    background: #000;
+}
+
+.cur {
+    border: 1px solid #f55;
 }
 
 

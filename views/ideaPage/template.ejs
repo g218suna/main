@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>みんなのマインドマップ</title>
     <link rel="stylesheet" href="/stylesheets/stylesheet.css">
-    <link rel="stylesheet" href="responsive.css">
+    <link rel="stylesheet" href="/stylesheets/responsive.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=M+PLUS+Rounded+1c">
 </head>
 
@@ -37,27 +37,209 @@
                             <%}); %>
                 </h2>
             </div>
+
             <div class="paper">
                 <canvas class="paper-canvas" id="mindmap"></canvas>
             </div>
+
+            <div class="ctrl2" id="ctrl">
+                <!-- 「線の太さ」ボタン群 -->
+                <span class="wds cur" wd="1"><span id="w1"></span></span>
+                <span class="wds" wd="2"><span id="w2"></span></span>
+                <span class="wds" wd="3"><span id="w3"></span></span>
+                <span class="wds" wd="4"><span id="w4"></span></span>
+                <span class="wds" wd="5"><span id="w5"></span></span>
+                <span class="wds" wd="6"><span id="w6"></span></span>
+                <span class="wds" wd="7"><span id="w7"></span></span>
+                <span class="wds" wd="8"><span id="w8"></span></span>
+                <span class="wds" wd="9"><span id="w9"></span></span>
+                <span class="wds" wd="10"><span id="w10"></span></span>
+                <span class="wds" wd="11"><span id="w11"></span></span>
+                <span class="wds" wd="12"><span id="w12"></span></span>
+                <span class="wds" wd="13"><span id="w13"></span></span>
+
+                <!-- 「線の太さ」選択枠 -->
+                <input type="number" id="width" min="1" max="13" value="1"><br>
+
+                <!-- 「線の色」ボタン群 -->
+                <span class="cls cur" cl="#000"><span id="c1"></span></span>
+                <span class="cls" cl="#fff"><span id="c2"></span></span>
+                <span class="cls" cl="#f00"><span id="c3"></span></span>
+                <span class="cls" cl="#080"><span id="c4"></span></span>
+                <span class="cls" cl="#00f"><span id="c5"></span></span>
+                <span class="cls" cl="#800"><span id="c6"></span></span>
+                <span class="cls" cl="#fd0"><span id="c7"></span></span>
+                <span class="cls" cl="#fcc"><span id="c8"></span></span>
+                <span class="cls" cl="#888"><span id="c9"></span></span>
+                <span class="cls" id="c11" cl="#000"><span id="c10"></span></span>
+
+                <!-- 「線の色」選択枠 -->
+                <input type="color" id="color">
+
+                <input type="button" id="clear" value="クリア">
+                <input type="button" id="save" value="保存">
+            </div>
         </div>
+
         <footer>
             <h3>チームG</h3>
         </footer>
     </div>
     <script type="text/javascript">
+        var wW, wH, eW, eH;
+
+        function getWindowSize() {
+            wW = window.innerWidth - 33;
+            wH = window.innerHeight - 300;
+            eW = document.documentElement.clientWidth;
+            eH = document.documentElement.clientHeight;
+            console.log(wW, wH, eW, eH);
+            //document.getElementById("mindmap").style.width = eW + 'px';
+            document.getElementById("mindmap").style.height = wH + 'px';
+        }
+
         getWindowSize();
 
         window.onresize = getWindowSize;
 
-        function getWindowSize() {
-            var wW = window.innerWidth;
-            var wH = window.innerHeight - 300;
-            var eW = document.documentElement.clientWidth;
-            var eH = document.documentElement.clientHeight;
-            //document.getElementById("mindmap").style.width = eW + 'px';
-            document.getElementById("mindmap").style.height = wH + 'px';
+        var canvas = document.getElementById('mindmap');
+        var ctx = canvas.getContext("2d");
+
+        var objs_wds = document.getElementsByClassName("wds");
+        var wds = Array.from(objs_wds);
+        var num_wds = document.getElementById("width");
+
+        var objs_cls = document.getElementsByClassName("cls");
+        var cls = Array.from(objs_cls);
+        var num_cls = document.getElementById("color");
+        var save_c10 = document.getElementById("c10");
+        var save_c11 = document.getElementById("c11");
+
+        var wd = document.get
+        var w = false;
+
+        /* 描画の終了 */
+        var wStop = () => {
+            w = false;
+        };
+        /* マウスボタンを離した時 */
+        canvas.onmouseup = wStop;
+        /* タッチ終了時 */
+        canvas.ontouchend = wStop;
+
+        /* ラインを描画 */
+        var wLine = (e) => {
+            /* 描画モードの時 */
+            if (w) {
+                /* スマホ、タブレット以外 */
+                if (typeof e.touches == 'undefined') {
+                    ctx.lineTo(e.offsetX, e.offsetY);
+                    /* スマホ、タブレット */
+                } else {
+                    var t = e.touches[0];
+                    /* 描画位置のズレを修正 */
+                    ctx.lineTo(t.pageX - left, t.pageY - top);
+                }
+                ctx.stroke();
+            }
+        };
+        /* マウス移動時 */
+        canvas.onmousemove = wLine;
+        /* タッチ移動時 */
+        canvas.ontouchmove = wLine;
+
+        /*描画の開始*/
+        var wStart = (e) => {
+            /* スマホで画面がずれないように */
+            e.preventDefault();
+            /* 描画モードに */
+            w = true;
+            ctx.beginPath();
+
+            /* スマホ、タブレット以外 */
+            if (typeof e.touches == 'undefined') {
+                ctx.moveTo(e.offsetX, e.offsetY);
+
+                /* スマホ、タブレット */
+            } else {
+                var t = e.touches[0];
+                /* 描画位置のズレを修正 */
+                ctx.moveTo(t.pageX - left, t.pageY - top);
+            }
+        };
+        /* マウス押下時 */
+        canvas.onmousedown = wStart;
+        /* タッチ開始時 */
+        canvas.ontouchstart = wStart;
+
+        /* クリアボタン押下時 */
+        clear.onclick = () => {
+            ctx.clearRect(0, 0, wW, wH);
+        };
+
+        /* 選択を未選択状態に */
+        var clearCs = (cs, def) => {
+            for (let i = 0; i < cs.length; i++) {
+                cs[i].setAttribute('class', def);
+            }
+        };
+
+        /* 線の太さ入力欄に変更があった時	 */
+        num_wds.onchange = () => {
+            clearCs(wds, 'wds');
+            ctx.lineWidth = num_wds.value;
+            wds[num_wds.value - 1].setAttribute('class', 'wds cur');
+
+        };
+        /* 線選択枠のクリックイベントの登録 */
+        for (let i = 0; i < wds.length; i++) {
+            wds[i].onclick = () => {
+                /* 線の太さ入力欄の選択状態を解除 */
+                clearCs(wds, 'wds');
+                ctx.lineWidth = wds[i].getAttribute('wd');
+                num_wds.setAttribute('value', `${i + 1}`);
+                wds[i].setAttribute('class', 'wds cur');
+            };
         }
+
+        /* 色ウィンドウから選択された時 */
+        num_cls.onchange = () => {
+            /* 選択した色を保存するボタン */
+            //var p10 = c10.parentNode;
+            clearCs(cls, 'cls');
+            ctx.strokeStyle = num_cls.value;
+            save_c10.style.background = num_cls.value;
+            save_c10.setAttribute('cl', num_cls.value);
+            save_c11.setAttribute('class', 'cls cur');
+        };
+        /* 色選択枠のクリックイベントの登録 */
+        for (let i = 0; i < cls.length; i++) {
+            cls[i].onclick = () => {
+                clearCs(cls, 'cls');
+                ctx.strokeStyle = cls[i].getAttribute('cl');
+                cls[i].setAttribute('class', 'cls cur');
+            }
+        }
+
+        /* 保存ボタン押下時 */
+        save.onclick = () => {
+            /* 画像のURL表現からデータ部を取出、Base64デコード */
+            var data = atob(ctx.toDataURL().replace(/^[^,]*,/, '')),
+                /* Bufferデータ配列に変換 */
+                bf = Uint8Array.from(data.split(''), x => x.charCodeAt(0));
+            var blob = new Blob([bf], {
+                    type: 'image/png'
+                }),
+                e = d.createEvent('MouseEvents'),
+                a = d.createElement('a');
+            /* クリックイベントを作成 */
+            e.initMouseEvent('click', false, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+            /* ダウンロードデータをリンク先に設定 */
+            a.href = URL.createObjectURL(blob);
+            a.download = 'paint.png';
+            /* ダウンロードリンクのイベントを発火 */
+            a.dispatchEvent(e);
+        };
     </script>
 </body>
 

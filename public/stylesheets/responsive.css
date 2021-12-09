@@ -1,0 +1,8 @@
+@media screen and (max-width: 500px) {
+    #clear {
+        width: 100%;
+    }
+    #save {
+        width: 100%;
+    }
+}
