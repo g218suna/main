@@ -1,32 +1,4 @@
-<!DOCTYPE html>
-<html lang="ja">
-
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>みんなのマインドマップ</title>
-    <link rel="stylesheet" href="/stylesheets/stylesheet.css">
-    <link rel="stylesheet" href="/stylesheets/responsive.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=M+PLUS+Rounded+1c">
-</head>
-
-<body>
-    <header>
-        <div class="container">
-            <div class="header-left">
-                <a href="/home">
-                    <h1>みんなのマインドマップ</h1>
-                </a>
-            </div>
-            <div class="header-right">
-                <a href="/logout" class="btn-header logout-header">ログアウト</a>
-                <a href="/everyone_idea" class="btn-header everyone-idea-header">みんなのアイデアを見る</a>
-                <a href="/my_idea" class="btn-header my-idea-header">自分のアイデアを見る</a>
-                <a href="/create_new_idea" class="btn-header create-new-header">アイデアを新規作成</a>
-                <a href="/configuration" class="btn-header configuration-header">設定</a>
-            </div>
-        </div>
-    </header>
+<%- include('/home/sunamoto/pbl2App/Mindmap/views/partials/header.ejs'); %>
 
     <div class="main">
         <div class="container">
@@ -43,48 +15,56 @@
             </div>
 
             <div class="ctrl2" id="ctrl">
-                <!-- 「線の太さ」ボタン群 -->
-                <span class="wds cur" wd="1"><span id="w1"></span></span>
-                <span class="wds" wd="2"><span id="w2"></span></span>
-                <span class="wds" wd="3"><span id="w3"></span></span>
-                <span class="wds" wd="4"><span id="w4"></span></span>
-                <span class="wds" wd="5"><span id="w5"></span></span>
-                <span class="wds" wd="6"><span id="w6"></span></span>
-                <span class="wds" wd="7"><span id="w7"></span></span>
-                <span class="wds" wd="8"><span id="w8"></span></span>
-                <span class="wds" wd="9"><span id="w9"></span></span>
-                <span class="wds" wd="10"><span id="w10"></span></span>
-                <span class="wds" wd="11"><span id="w11"></span></span>
-                <span class="wds" wd="12"><span id="w12"></span></span>
-                <span class="wds" wd="13"><span id="w13"></span></span>
+                <div class="pencil-width">
+                    <img src="/images/pencil.png">
+                    <!-- 「線の太さ」ボタン群 -->
+                    <span class="wds cur" wd="1"><span id="w1"></span></span>
+                    <span class="wds" wd="2"><span id="w2"></span></span>
+                    <span class="wds" wd="3"><span id="w3"></span></span>
+                    <span class="wds" wd="4"><span id="w4"></span></span>
+                    <span class="wds" wd="5"><span id="w5"></span></span>
+                    <span class="wds" wd="6"><span id="w6"></span></span>
+                    <span class="wds" wd="7"><span id="w7"></span></span>
+                    <span class="wds" wd="8"><span id="w8"></span></span>
+                    <span class="wds" wd="9"><span id="w9"></span></span>
+                    <span class="wds" wd="10"><span id="w10"></span></span>
+                    <span class="wds" wd="11"><span id="w11"></span></span>
+                    <span class="wds" wd="12"><span id="w12"></span></span>
+                    <span class="wds" wd="13"><span id="w13"></span></span>
 
-                <!-- 「線の太さ」選択枠 -->
-                <input type="number" id="width" min="1" max="13" value="1"><br>
+                    <!-- 「線の太さ」選択枠 -->
+                    <input type="number" id="width" min="1" max="13" value="1">
+                </div>
+                <div class="pencil-color">
+                    <img src="/images/palette.png">
+                    <!-- 「線の色」ボタン群 -->
+                    <span class="cls cur" cl="#000"><span id="c1"></span></span>
+                    <span class="cls" cl="#fff"><span id="c2"></span></span>
+                    <span class="cls" cl="#f00"><span id="c3"></span></span>
+                    <span class="cls" cl="#080"><span id="c4"></span></span>
+                    <span class="cls" cl="#00f"><span id="c5"></span></span>
+                    <span class="cls" cl="#800"><span id="c6"></span></span>
+                    <span class="cls" cl="#fd0"><span id="c7"></span></span>
+                    <span class="cls" cl="#fcc"><span id="c8"></span></span>
+                    <span class="cls" cl="#888"><span id="c9"></span></span>
+                    <span class="cls" id="c11" cl="#000"><span id="c10"></span></span>
 
-                <!-- 「線の色」ボタン群 -->
-                <span class="cls cur" cl="#000"><span id="c1"></span></span>
-                <span class="cls" cl="#fff"><span id="c2"></span></span>
-                <span class="cls" cl="#f00"><span id="c3"></span></span>
-                <span class="cls" cl="#080"><span id="c4"></span></span>
-                <span class="cls" cl="#00f"><span id="c5"></span></span>
-                <span class="cls" cl="#800"><span id="c6"></span></span>
-                <span class="cls" cl="#fd0"><span id="c7"></span></span>
-                <span class="cls" cl="#fcc"><span id="c8"></span></span>
-                <span class="cls" cl="#888"><span id="c9"></span></span>
-                <span class="cls" id="c11" cl="#000"><span id="c10"></span></span>
-
-                <!-- 「線の色」選択枠 -->
-                <input type="color" id="color">
-
-                <input type="button" id="clear" value="クリア">
-                <input type="button" id="save" value="保存">
+                    <!-- 「線の色」選択枠 -->
+                    <input type="color" id="color">
+                </div>
+                <div class="eraser">
+                    <img src="/images/eraser.png">
+                </div>
+                <div class="function">
+                    <input type="button" id="clear" value="クリア">
+                    <% ideaPage_data.forEach((ideaPage_data)=> { %>
+                        <a id="save" href="#" download="<%= ideaPage_data.title %>.jpg">保存</a>
+                        <%}); %>
+                </div>
             </div>
         </div>
-
-        <footer>
-            <h3>チームG</h3>
-        </footer>
     </div>
+
     <script type="text/javascript">
         var wW, wH, eW, eH;
 
@@ -94,13 +74,13 @@
             eW = document.documentElement.clientWidth;
             eH = document.documentElement.clientHeight;
             console.log(wW, wH, eW, eH);
-            //document.getElementById("mindmap").style.width = eW + 'px';
-            document.getElementById("mindmap").style.height = wH + 'px';
+            document.getElementById("mindmap").width = wW;
+            document.getElementById("mindmap").height = wH;
         }
 
         getWindowSize();
 
-        window.onresize = getWindowSize;
+        //window.onresize = getWindowSize;
 
         var canvas = document.getElementById('mindmap');
         var ctx = canvas.getContext("2d");
@@ -114,13 +94,24 @@
         var num_cls = document.getElementById("color");
         var save_c10 = document.getElementById("c10");
         var save_c11 = document.getElementById("c11");
+        var save = document.getElementById("save");
 
-        var wd = document.get
-        var w = false;
+        var el = document.getElementById("mindmap");
+        var drawing = false;
+
+        var bgColor = "rgb(255,255,255)";
+
+        function setBgColor() {
+            ctx.fillStyle = bgColor;
+            ctx.fillRect(0, 0, wW, wH);
+        }
+
+        setBgColor();
 
         /* 描画の終了 */
         var wStop = () => {
-            w = false;
+            drawing = false;
+            ctx.closePath();
         };
         /* マウスボタンを離した時 */
         canvas.onmouseup = wStop;
@@ -129,16 +120,21 @@
 
         /* ラインを描画 */
         var wLine = (e) => {
+            var target_rect = e.target.getBoundingClientRect();
+            var x = e.clientX - target_rect.left;
+            var y = e.clientY - target_rect.top;
+            console.log("x" + x, "y" + y);
+
             /* 描画モードの時 */
-            if (w) {
+            if (drawing) {
                 /* スマホ、タブレット以外 */
                 if (typeof e.touches == 'undefined') {
-                    ctx.lineTo(e.offsetX, e.offsetY);
+                    ctx.lineTo(x, y);
                     /* スマホ、タブレット */
                 } else {
                     var t = e.touches[0];
                     /* 描画位置のズレを修正 */
-                    ctx.lineTo(t.pageX - left, t.pageY - top);
+                    ctx.lineTo(x, y);
                 }
                 ctx.stroke();
             }
@@ -153,18 +149,23 @@
             /* スマホで画面がずれないように */
             e.preventDefault();
             /* 描画モードに */
-            w = true;
+            drawing = true;
             ctx.beginPath();
+
+            var target_rect = e.target.getBoundingClientRect();
+            var x = e.clientX - target_rect.left;
+            var y = e.clientY - target_rect.top;
+            console.log("x" + x, "y" + y);
 
             /* スマホ、タブレット以外 */
             if (typeof e.touches == 'undefined') {
-                ctx.moveTo(e.offsetX, e.offsetY);
+                ctx.moveTo(x, y);
 
                 /* スマホ、タブレット */
             } else {
                 var t = e.touches[0];
                 /* 描画位置のズレを修正 */
-                ctx.moveTo(t.pageX - left, t.pageY - top);
+                ctx.moveTo(x, y);
             }
         };
         /* マウス押下時 */
@@ -175,6 +176,8 @@
         /* クリアボタン押下時 */
         clear.onclick = () => {
             ctx.clearRect(0, 0, wW, wH);
+            getWindowSize();
+            setBgColor();
         };
 
         /* 選択を未選択状態に */
@@ -223,24 +226,25 @@
 
         /* 保存ボタン押下時 */
         save.onclick = () => {
-            /* 画像のURL表現からデータ部を取出、Base64デコード */
+            var data = canvas.toDataURL("image/jpeg");
+            save.href = data;
+            /* 画像のURL表現からデータ部を取出、Base64デコード
             var data = atob(ctx.toDataURL().replace(/^[^,]*,/, '')),
-                /* Bufferデータ配列に変換 */
+                // Bufferデータ配列に変換 
                 bf = Uint8Array.from(data.split(''), x => x.charCodeAt(0));
             var blob = new Blob([bf], {
                     type: 'image/png'
                 }),
                 e = d.createEvent('MouseEvents'),
                 a = d.createElement('a');
-            /* クリックイベントを作成 */
+            //クリックイベントを作成 
             e.initMouseEvent('click', false, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-            /* ダウンロードデータをリンク先に設定 */
+            //ダウンロードデータをリンク先に設定
             a.href = URL.createObjectURL(blob);
             a.download = 'paint.png';
-            /* ダウンロードリンクのイベントを発火 */
-            a.dispatchEvent(e);
+            //ダウンロードリンクのイベントを発火
+            a.dispatchEvent(e); */
         };
     </script>
-</body>
 
-</html>
+    <%- include('/home/sunamoto/pbl2App/Mindmap/views/partials/footer.ejs'); %>

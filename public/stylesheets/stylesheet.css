@@ -15,7 +15,7 @@ header {
 }
 
 header h1 {
-    margin: 0 0;
+    margin: 0 5px;
 }
 
 .header-left {
@@ -24,6 +24,7 @@ header h1 {
 }
 
 .header-left a {
+    display: flex;
     color: white;
 }
 
@@ -296,6 +297,10 @@ a {
     border-width: 1px;
     margin: 10px auto;
     line-height: 35px;
+}
+
+.ctrl2 img {
+    vertical-align: bottom;
 }
 
 
