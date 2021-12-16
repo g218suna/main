@@ -1,0 +1,175 @@
+<%- include('/home/sunamoto/pbl2App/Mindmap/views/partials/header.ejs'); %>
+
+    <link type="text/css" rel="stylesheet" href="/jsmind/style/jsmind.css" />
+    <script type="text/javascript" src="/jsmind/js/jsmind.js"></script>
+    <script type="text/javascript" src="/jsmind/js/jsmind.draggable.js"></script>
+
+    <div class="main">
+        <div class="container">
+            <div class="heading">
+                <h2>
+                    <% ideaPage_data.forEach((ideaPage_data)=> { %>
+                        <%= ideaPage_data.title %>
+                            <%}); %>
+                </h2>
+            </div>
+
+            <div class="paper-jsmind" id="jsmind_container"></div>
+
+            <script type="text/javascript">
+                var wW, wH, eW, eH;
+
+                function getWindowSize() {
+                    wW = window.innerWidth - 33;
+                    wH = window.innerHeight - 300;
+                    eW = document.documentElement.clientWidth;
+                    eH = document.documentElement.clientHeight;
+                    console.log(wW, wH, eW, eH);
+                    document.getElementById("jsmind_container").width = wW;
+                    document.getElementById("jsmind_container").height = wH;
+                }
+
+                getWindowSize();
+
+                function load_jsmind() {
+                    var mind = {
+                        "meta": {
+                            "name": "jsMind remote",
+                            "author": "hizzgdev@163.com",
+                            "version": "0.2"
+                        },
+                        "format": "node_tree",
+                        "data": {
+                            "id": "root",
+                            "topic": "jsMind",
+                            "children": [{
+                                "id": "easy",
+                                "topic": "Easy",
+                                "direction": "left",
+                                "children": [{
+                                    "id": "easy1",
+                                    "topic": "Easy to show"
+                                }, {
+                                    "id": "easy2",
+                                    "topic": "Easy to edit"
+                                }, {
+                                    "id": "easy3",
+                                    "topic": "Easy to store"
+                                }, {
+                                    "id": "easy4",
+                                    "topic": "Easy to embed"
+                                }]
+                            }, {
+                                "id": "open",
+                                "topic": "Open Source",
+                                "direction": "right",
+                                "children": [{
+                                    "id": "open1",
+                                    "topic": "on GitHub"
+                                }, {
+                                    "id": "open2",
+                                    "topic": "BSD License"
+                                }]
+                            }, {
+                                "id": "powerful",
+                                "topic": "Powerful",
+                                "direction": "right",
+                                "children": [{
+                                    "id": "powerful1",
+                                    "topic": "Base on Javascript"
+                                }, {
+                                    "id": "powerful2",
+                                    "topic": "Base on HTML5"
+                                }, {
+                                    "id": "powerful3",
+                                    "topic": "Depends on you"
+                                }]
+                            }, {
+                                "id": "other",
+                                "topic": "test node",
+                                "direction": "left",
+                                "children": [{
+                                    "id": "other1",
+                                    "topic": "I'm from local variable"
+                                }, {
+                                    "id": "other2",
+                                    "topic": "I can do everything"
+                                }]
+                            }]
+                        }
+                    };
+                    var options = {
+                        container: 'jsmind_container',
+                        editable: true,
+                        theme: 'primary'
+                    }
+                    var jm = jsMind.show(options, mind);
+                    // jm.set_readonly(true);
+                    // var mind_data = jm.get_data();
+                    // alert(mind_data);
+                    jm.add_node("sub2", "sub23", "new node", {
+                        "background-color": "red"
+                    });
+                    jm.set_node_color('sub21', 'green', '#ccc');
+                }
+                load_jsmind();
+            </script>
+
+            <div class="paper">
+                <canvas class="paper-canvas" id="mindmap"></canvas>
+            </div>
+
+            <div class="ctrl2" id="ctrl">
+                <div class="pencil-width">
+                    <img src="/images/pencil.png">
+                    <!-- 「線の太さ」ボタン群 -->
+                    <span class="wds cur" wd="1"><span id="w1"></span></span>
+                    <span class="wds" wd="2"><span id="w2"></span></span>
+                    <span class="wds" wd="3"><span id="w3"></span></span>
+                    <span class="wds" wd="4"><span id="w4"></span></span>
+                    <span class="wds" wd="5"><span id="w5"></span></span>
+                    <span class="wds" wd="6"><span id="w6"></span></span>
+                    <span class="wds" wd="7"><span id="w7"></span></span>
+                    <span class="wds" wd="8"><span id="w8"></span></span>
+                    <span class="wds" wd="9"><span id="w9"></span></span>
+                    <span class="wds" wd="10"><span id="w10"></span></span>
+                    <span class="wds" wd="11"><span id="w11"></span></span>
+                    <span class="wds" wd="12"><span id="w12"></span></span>
+                    <span class="wds" wd="13"><span id="w13"></span></span>
+
+                    <!-- 「線の太さ」選択枠 -->
+                    <input type="number" id="width" min="1" max="13" value="1">
+                </div>
+                <div class="pencil-color">
+                    <img src="/images/palette.png">
+                    <!-- 「線の色」ボタン群 -->
+                    <span class="cls cur" cl="#000"><span id="c1"></span></span>
+                    <span class="cls" cl="#fff"><span id="c2"></span></span>
+                    <span class="cls" cl="#f00"><span id="c3"></span></span>
+                    <span class="cls" cl="#080"><span id="c4"></span></span>
+                    <span class="cls" cl="#00f"><span id="c5"></span></span>
+                    <span class="cls" cl="#800"><span id="c6"></span></span>
+                    <span class="cls" cl="#fd0"><span id="c7"></span></span>
+                    <span class="cls" cl="#fcc"><span id="c8"></span></span>
+                    <span class="cls" cl="#888"><span id="c9"></span></span>
+                    <span class="cls" id="c11" cl="#000"><span id="c10"></span></span>
+
+                    <!-- 「線の色」選択枠 -->
+                    <input type="color" id="color">
+                </div>
+                <div class="eraser">
+                    <img src="/images/eraser.png">
+                </div>
+                <div class="function">
+                    <input type="button" id="clear" value="クリア">
+                    <% ideaPage_data.forEach((ideaPage_data)=> { %>
+                        <a id="save" href="#" download="<%= ideaPage_data.title %>.jpg">保存</a>
+                        <%}); %>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="/paint/paint.js"></script>
+
+    <%- include('/home/sunamoto/pbl2App/Mindmap/views/partials/footer.ejs'); %>

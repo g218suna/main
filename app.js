@@ -314,7 +314,7 @@ app.get('/verify/:id/:hash', (req, res) => {
                     .digest('hex');
                 const isCorrectHash = (hash === req.params.hash);
                 const isExpired = (now.getTime() > parseInt(req.query.expires));
-                const verificationUrl = 'http://192.168.2.198:3000' + req.originalUrl.split('&signature=')[0];
+                const verificationUrl = 'http://192.168.2.100:3000' + req.originalUrl.split('&signature=')[0];
                 const signature = crypto.createHmac('sha256', APP_KEY)
                     .update(verificationUrl)
                     .digest('hex');

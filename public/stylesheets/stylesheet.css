@@ -288,7 +288,13 @@ a {
     border-color: black;
     border-width: 1px;
     margin: 10px auto;
-    width: 100%;
+}
+
+.paper-mindmap {
+    border-style: solid;
+    border-color: black;
+    border-width: 1px;
+    margin: 10px auto;
 }
 
 .ctrl2 {
