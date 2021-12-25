@@ -314,7 +314,7 @@ app.get('/verify/:id/:hash', (req, res) => {
                     .digest('hex');
                 const isCorrectHash = (hash === req.params.hash);
                 const isExpired = (now.getTime() > parseInt(req.query.expires));
-                const verificationUrl = 'http://192.168.2.100:3000' + req.originalUrl.split('&signature=')[0];
+                const verificationUrl = 'http://192.168.2.103:3000' + req.originalUrl.split('&signature=')[0];
                 const signature = crypto.createHmac('sha256', APP_KEY)
                     .update(verificationUrl)
                     .digest('hex');
@@ -388,6 +388,12 @@ app.get('/idea_edit/:rootID', (req, res) => {
     });
 });
 
+app.post('/save_data/:rootID', (req, res) => {
+    console.log(req.body.readMindmapData);
+    //fs.writeFileSync(req.params.rootID + '.js', req.body.readMindmapData);
+    res.redirect('/my_idea');
+});
+
 app.post('/idea_delete/:rootID', (req, res) => {
     IdeaSheets.destroy({
         where: { rootID: req.params.rootID }
@@ -426,6 +432,14 @@ app.get('/createPage', (req, res) => {
     IdeaSheets.max('rootID').then(maxRootId => {
         IdeaSheets.update({ pageURL: maxRootId + '.ejs' }, { where: { rootID: maxRootId } }).then(() => {
             fs.copyFile('views/ideaPage/template.ejs', 'views/ideaPage/' + maxRootId + '.ejs', (err) => {
+                if (err) {
+                    console.log(err.stack);
+                } else {
+                    console.log('Done.');
+                }
+            });
+
+            fs.copyFile('public/mindelixir/data/template.js', 'public/mindelixir/data/' + maxRootId + '.js', (err) => {
                 if (err) {
                     console.log(err.stack);
                 } else {

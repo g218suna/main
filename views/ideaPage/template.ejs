@@ -11,13 +11,12 @@
             </div>
 
             <div class="paper-mindmap" id="map">
-
             </div>
+            <input type="button" value="保存" onclick="saveMindmap()">
             <style>
                 #map {
                     height: 600px;
                     width: 100%;
-                    background-color: #DAE4E4;
                 }
             </style>
 
@@ -80,7 +79,83 @@
 
     <script type="text/javascript" src="/mindelixir/dist/MindElixir.js"></script>
 
-    <script type="text/javascript" src="/mindelixir/my-mindelixir.js"></script>
+    <script type="text/javascript" src="/mindelixir/data/1.js"></script>
+
+    <script type="text/javascript">
+        let options = {
+            el: '#map',
+            direction: MindElixir.SIDE,
+            // create new map data
+            data: mindmapData,
+            // the data return from `.getAllData()`
+            draggable: true, // default true
+            contextMenu: true, // default true
+            toolBar: true, // default true
+            nodeMenu: true, // default true
+            keypress: true, // default true
+            locale: 'ja', // [zh_CN,zh_TW,en,ja,pt] waiting for PRs
+            overflowHidden: false, // default false
+            primaryLinkStyle: 2, // [1,2] default 1
+            primaryNodeVerticalGap: 15, // default 25
+            primaryNodeHorizontalGap: 15, // default 65
+            contextMenuOption: {
+                focus: true,
+                link: true,
+                extend: [{
+                    name: 'Node edit',
+                    onclick: () => {
+                        alert('extend menu')
+                    },
+                }, ],
+            },
+            allowUndo: false,
+            before: {
+                insertSibling(el, obj) {
+                    return true
+                },
+                async addChild(el, obj) {
+                    await sleep()
+                    return true
+                },
+            },
+        }
+
+        let mind = new MindElixir(options);
+
+        mind.bus.addListener('operation', operation => {
+            console.log(operation)
+                // return {
+                //   name: action name,
+                //   obj: target object
+                // }
+
+            // name: [insertSibling|addChild|removeNode|beginEdit|finishEdit]
+            // obj: target
+
+            // name: moveNode
+            // obj: {from:target1,to:target2}
+        })
+        mind.bus.addListener('selectNode', node => {
+            console.log(node)
+        })
+
+        const saveMindmap = () => {
+            let str = window.location.href.split('/').pop().split('.').pop();
+            console.log(str);
+            let readMindmapData = mind.getAllData();
+            console.log(readMindmapData);
+
+            const form = document.createElement('form');
+            form.action = '/save_data/' + str;
+            form.method = 'post';
+            form.submit();
+            const input = document.createElement('input');
+            input.name = 'data';
+            input.value = readMindmapData;
+        };
+
+        mind.init();
+    </script>
 
     <script type="text/javascript" src="/paint/paint.js"></script>
 
