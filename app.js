@@ -347,9 +347,9 @@ app.get('/register', (req, res) => {
 
 /*-----------------------------------------------------*/
 
-app.get('/everyone_idea', (req, res) => {
+app.get('/everyone_idea', (req, res) => { //みんなのアイデアを見る
     IdeaSheets.findAll({
-        where: {
+        where: { //自分のidと一致または公開設定されているデータを取得
             [Op.or]: {
                 id: req.user.id,
                 sharingSetting: true
@@ -361,11 +361,11 @@ app.get('/everyone_idea', (req, res) => {
 });
 
 /*-----------------------------------------------------*/
-
+//自分のアイデアを見る
 app.get('/my_idea', (req, res) => {
     IdeaSheets.findAll({
         where: {
-            id: req.user.id
+            id: req.user.id //自分のid一致するデータのみ取得
         }
     }).then(idea => {
         res.render('my_idea.ejs', { idea_list: idea });
@@ -373,6 +373,7 @@ app.get('/my_idea', (req, res) => {
 
 });
 
+//公開設定 1=公開,0=非公開
 app.post('/sharingSetting_change/:rootID', (req, res) => {
     IdeaSheets.update({ sharingSetting: req.body.sharingSetting }, { where: { rootID: req.params.rootID } }).then(() => {
         res.redirect('/my_idea');
@@ -380,6 +381,7 @@ app.post('/sharingSetting_change/:rootID', (req, res) => {
 
 });
 
+//各アイデアページ
 app.get('/idea_edit/:rootID', (req, res) => {
     IdeaSheets.findAll({
         where: { rootID: req.params.rootID }
@@ -388,12 +390,14 @@ app.get('/idea_edit/:rootID', (req, res) => {
     });
 });
 
+//マインドマップを保存
 app.post('/save_data/:rootID', (req, res) => {
-    console.log(req.body.readMindmapData);
-    //fs.writeFileSync(req.params.rootID + '.js', req.body.readMindmapData);
+    console.log(req.body.data);
+    fs.writeFileSync('public/mindelixir/data/' + req.params.rootID + '.js', 'let mindmapData = ' + req.body.data + ';');
     res.redirect('/my_idea');
 });
 
+//マインドマップを削除
 app.post('/idea_delete/:rootID', (req, res) => {
     IdeaSheets.destroy({
         where: { rootID: req.params.rootID }

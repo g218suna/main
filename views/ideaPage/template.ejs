@@ -1,6 +1,6 @@
 <%- include('/home/sunamoto/pbl2App/Mindmap/views/partials/header.ejs'); %>
 
-    <div class="main">
+    <div class="main" id="main">
         <div class="container">
             <div class="heading">
                 <h2>
@@ -12,7 +12,7 @@
 
             <div class="paper-mindmap" id="map">
             </div>
-            <input type="button" value="保存" onclick="saveMindmap()">
+            <button id='$btn'>保存</button>
             <style>
                 #map {
                     height: 600px;
@@ -20,6 +20,9 @@
                 }
             </style>
 
+            <div class="heading">
+                <h2>ノート</h2>
+            </div>
             <div class="paper">
                 <canvas class="paper-canvas" id="mindmap"></canvas>
             </div>
@@ -76,85 +79,21 @@
     </div>
 
     <!--<script type="text/javascript" src="/gojs/my-gojs.js"></script>-->
-
     <script type="text/javascript" src="/mindelixir/dist/MindElixir.js"></script>
 
-    <script type="text/javascript" src="/mindelixir/data/1.js"></script>
 
     <script type="text/javascript">
-        let options = {
-            el: '#map',
-            direction: MindElixir.SIDE,
-            // create new map data
-            data: mindmapData,
-            // the data return from `.getAllData()`
-            draggable: true, // default true
-            contextMenu: true, // default true
-            toolBar: true, // default true
-            nodeMenu: true, // default true
-            keypress: true, // default true
-            locale: 'ja', // [zh_CN,zh_TW,en,ja,pt] waiting for PRs
-            overflowHidden: false, // default false
-            primaryLinkStyle: 2, // [1,2] default 1
-            primaryNodeVerticalGap: 15, // default 25
-            primaryNodeHorizontalGap: 15, // default 65
-            contextMenuOption: {
-                focus: true,
-                link: true,
-                extend: [{
-                    name: 'Node edit',
-                    onclick: () => {
-                        alert('extend menu')
-                    },
-                }, ],
-            },
-            allowUndo: false,
-            before: {
-                insertSibling(el, obj) {
-                    return true
-                },
-                async addChild(el, obj) {
-                    await sleep()
-                    return true
-                },
-            },
+        function loadScript(src) {
+            const script = document.createElement("script");
+            script.type = 'text/javascript';
+            script.src = src;
+            script.async = false;
+            document.body.appendChild(script);
         }
 
-        let mind = new MindElixir(options);
-
-        mind.bus.addListener('operation', operation => {
-            console.log(operation)
-                // return {
-                //   name: action name,
-                //   obj: target object
-                // }
-
-            // name: [insertSibling|addChild|removeNode|beginEdit|finishEdit]
-            // obj: target
-
-            // name: moveNode
-            // obj: {from:target1,to:target2}
-        })
-        mind.bus.addListener('selectNode', node => {
-            console.log(node)
-        })
-
-        const saveMindmap = () => {
-            let str = window.location.href.split('/').pop().split('.').pop();
-            console.log(str);
-            let readMindmapData = mind.getAllData();
-            console.log(readMindmapData);
-
-            const form = document.createElement('form');
-            form.action = '/save_data/' + str;
-            form.method = 'post';
-            form.submit();
-            const input = document.createElement('input');
-            input.name = 'data';
-            input.value = readMindmapData;
-        };
-
-        mind.init();
+        let str = window.location.href.split('/').pop().split('.').pop();
+        loadScript(`/mindelixir/data/${str}.js`);
+        loadScript(`/mindelixir/data/init.js`);
     </script>
 
     <script type="text/javascript" src="/paint/paint.js"></script>

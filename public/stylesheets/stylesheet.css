@@ -305,6 +305,10 @@ a {
     line-height: 35px;
 }
 
+.ctrl2 a {
+    color: black;
+}
+
 .ctrl2 img {
     vertical-align: bottom;
 }
