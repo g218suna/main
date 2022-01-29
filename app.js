@@ -346,8 +346,8 @@ app.get('/register', (req, res) => {
 });
 
 /*-----------------------------------------------------*/
-
-app.get('/everyone_idea', (req, res) => { //みんなのアイデアを見る
+//みんなのアイデアを見る
+app.get('/everyone_idea', (req, res) => {
     IdeaSheets.findAll({
         where: { //自分のidと一致または公開設定されているデータを取得
             [Op.or]: {
@@ -390,6 +390,17 @@ app.get('/idea_edit/:rootID', (req, res) => {
     });
 });
 
+//マインドマップタイトル変更
+app.post('/change_title/:rootID', (req, res) => {
+    IdeaSheets.update({
+        title: req.body.changeTitle
+    }, {
+        where: { rootID: req.params.rootID }
+    }).then(() => {
+        res.redirect('/my_idea');
+    });
+});
+
 //マインドマップを保存
 app.post('/save_data/:rootID', (req, res) => {
     console.log(req.body.data);
@@ -409,12 +420,11 @@ app.post('/idea_delete/:rootID', (req, res) => {
 /*-----------------------------------------------------*/
 
 app.get('/create_new_idea', (req, res) => {
-    connection.query(
-        `SELECT * FROM Users WHERE id = ${req.user.id}`,
-        (error, results) => {
-            res.render('create_new_idea.ejs', { create_idea: results });
-        }
-    );
+    User.findAll({
+        where: { id: req.user.id }
+    }).then((results) => {
+        res.render('create_new_idea.ejs', { create_idea: results });
+    });
 });
 
 app.post('/create/:id', (req, res) => {
@@ -496,12 +506,11 @@ app.post('/change/:id', changeValidationRules, (req, res) => {
 });
 
 app.get('/configuration', (req, res) => {
-    connection.query(
-        `SELECT * FROM Users WHERE id = ${req.user.id}`,
-        (error, results) => {
-            res.render('configuration.ejs', { login_user: results });
-        }
-    );
+    User.findAll({
+        where: { id: req.user.id }
+    }).then((results) => {
+        res.render('configuration.ejs', { login_user: results });
+    });
 });
 
 /*-----------------------------------------------------*/

@@ -1,7 +1,4 @@
 <%- include('partials/header.ejs'); %>
-    <form>
-        <input id="file" type="file" name="file">
-    </form>
 
     <div class="main">
         <div class="container">
@@ -16,15 +13,15 @@
                         <input type="hidden" name="email" value="<%=create_idea.email%>">
                         <div class="idea-list">
                             <div class="data-idea nickName">
-                                <span class="idea-list-label">ニックネーム　</span>
+                                <span class="idea-list-label">ニックネーム<br>（※公開されます）</span>
                                 <input class="create-idea-text" type="text" name="nickName">
                             </div>
                             <div class="data-idea title">
-                                <span class="idea-list-label">タイトル　</span>
+                                <span class="idea-list-label">タイトル</span>
                                 <input class="create-idea-text" type="text" name="title">
                             </div>
                             <div class="data-idea rootName">
-                                <span class="idea-list-label">中心テーマ　</span>
+                                <span class="idea-list-label">中心テーマ</span>
                                 <input class="create-idea-text" type="text" name="rootName">
                             </div>
                             <div class="data-idea sharing">
@@ -44,29 +41,5 @@
             </div>
         </div>
     </div>
-
-    <form>
-        <input id="file" type="file" name="file">
-    </form>
-
-    <script type="text/javascript">
-        let input = document.getElementById('file');
-        let reader = new FileReader();
-
-        function fileTest() {
-            for (file of input.files) {
-                reader.readAsText(file);
-                reader.onload = () => {
-                    console.log(reader.result);
-                };
-            }
-        };
-
-        input.addEventListener('change', {
-            handleEvent: fileTest
-        });
-
-        var string = '';
-    </script>
 
     <%- include('partials/footer.ejs'); %>

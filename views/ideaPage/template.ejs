@@ -1,4 +1,4 @@
-<%- include('/home/sunamoto/pbl2App/Mindmap/views/partials/header.ejs'); %>
+<%- include('../partials/header.ejs'); %>
 
     <div class="main" id="main">
         <div class="container">
@@ -6,6 +6,10 @@
                 <h2>
                     <% ideaPage_data.forEach((ideaPage_data)=> { %>
                         <%= ideaPage_data.title %>
+                            <form action="/change_title/<%= ideaPage_data.rootId%>" method="post">
+                                <input class="change_title" type="text" name="changeTitle">
+                                <input class="change_title" type="submit" value="タイトルを変更">
+                            </form>
                             <% }); %>
                 </h2>
             </div>
@@ -81,7 +85,6 @@
     <!--<script type="text/javascript" src="/gojs/my-gojs.js"></script>-->
     <script type="text/javascript" src="/mindelixir/dist/MindElixir.js"></script>
 
-
     <script type="text/javascript">
         function loadScript(src) {
             const script = document.createElement("script");
@@ -98,4 +101,4 @@
 
     <script type="text/javascript" src="/paint/paint.js"></script>
 
-    <%- include('/home/sunamoto/pbl2App/Mindmap/views/partials/footer.ejs'); %>
+    <%- include('../partials/footer.ejs'); %>

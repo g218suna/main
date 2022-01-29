@@ -14,7 +14,10 @@
         <div class="container">
             <div class="header-left">
                 <a href="/mindmap">
-                    <h1>みんなのマインドマップ</h1>
+                    <div><img src="/images/icons8Mindmap.png"></div>
+                    <div>
+                        <h1>みんなのマインドマップ</h1>
+                    </div>
                 </a>
             </div>
             <div class="header-right">
