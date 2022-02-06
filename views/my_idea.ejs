@@ -10,18 +10,42 @@
                 <% idea_list.forEach((idea_list)=> { %>
                     <form action="/sharingSetting_change/<%= idea_list.rootId %>" method="post" id="settingBox">
                         <div class="idea-list">
-                            <a href="#" class="data-idea nickName">
+                            <div class="data-idea nickName">
                                 <span class="idea-list-label">ニックネーム　</span>
                                 <%= idea_list.nickName %>
-                            </a>
-                            <a href="#" class="data-idea title">
+                                    <br>
+                                    <details>
+                                        <summary class="">
+                                            <img src="images/arrow.png">
+                                        </summary>
+                                        <input class="data-idea3" type="text" name="nickName" value="<%=idea_list.nickName %>">
+                                        <input class="data-idea2" type="submit" value="変更する">
+                                    </details>
+                            </div>
+                            <div class="data-idea title">
                                 <span class="idea-list-label">タイトル　</span>
                                 <%= idea_list.title %>
-                            </a>
-                            <a href="#" class="data-idea rootName">
+                                    <br>
+                                    <details>
+                                        <summary class="">
+                                            <img src="images/arrow.png">
+                                        </summary>
+                                        <input class="data-idea3" type="text" name="title" value="<%=idea_list.title %>">
+                                        <input class="data-idea2" type="submit" value="変更する">
+                                    </details>
+                            </div>
+                            <div class="data-idea rootName">
                                 <span class="idea-list-label">中心テーマ　</span>
                                 <%= idea_list.rootName %>
-                            </a>
+                                    <br>
+                                    <details>
+                                        <summary class="">
+                                            <img src="images/arrow.png">
+                                        </summary>
+                                        <input class="data-idea3" type="text" name="rootName" value="<%=idea_list.rootName %>">
+                                        <input class="data-idea2" type="submit" value="変更する">
+                                    </details>
+                            </div>
                             <div class="data-idea sharing">
                                 <span class="idea-list-label">現在の設定</span>
                                 <span>
@@ -30,11 +54,16 @@
                                         <%= sharing %>
                                 </span>
                                 <br>
-                                <input type="radio" name="sharingSetting" value="true">
-                                <span class="idea-list-label">公開</span>
-                                <input type="radio" name="sharingSetting" value="false">
-                                <span class="idea-list-label">非公開</span>
-                                <input type="submit" value="変更する">
+                                <details>
+                                    <summary class="">
+                                        <img src="images/arrow.png">
+                                    </summary>
+                                    <input type="radio" name="sharingSetting" value="true">
+                                    <span class="idea-list-label">公開</span>
+                                    <input type="radio" name="sharingSetting" value="false">
+                                    <span class="idea-list-label">非公開</span>
+                                    <input class="data-idea2" type="submit" value="変更する">
+                                </details>
                             </div>
                         </div>
                     </form>
@@ -46,7 +75,6 @@
                     </div>
                     <% }); %>
             </div>
-
         </div>
 
         <script type="text/javascript">

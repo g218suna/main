@@ -164,6 +164,29 @@ a {
     opacity: 1;
 }
 
+.data-idea2 {
+    border-style: none;
+    padding: 4px 18px;
+    margin: 0 10px;
+    border-radius: 10px;
+    font-size: 15px;
+    background-color: #B2B2B2;
+    color: black;
+    opacity: 0.8;
+}
+
+.data-idea3 {
+    text-align: center;
+}
+
+.data-idea2:hover {
+    padding: 2px 16px;
+    border-style: solid;
+    border-width: 2px;
+    border-color: red;
+    opacity: 1;
+}
+
 .idea-delete {
     border-style: none;
     padding: 8px 20px;
@@ -181,6 +204,7 @@ a {
     border-width: 2px;
     border-color: red;
     opacity: 1;
+    cursor: pointer;
 }
 
 .idea-list-label {
@@ -210,6 +234,28 @@ a {
 
 .sharing {
     background-color: #FFCCFF;
+}
+
+summary {
+    display: block;
+    /* デフォルトの矢印を消す */
+}
+
+summary::-webkit-details-marker {
+    display: none;
+    /* デフォルトの矢印を消す */
+}
+
+summary {
+    height: 25px;
+}
+
+summary:hover {
+    cursor: pointer;
+}
+
+details[open] summary {
+    opacity: 0.5;
 }
 
 
@@ -285,24 +331,53 @@ a {
 
 .paper-canvas {
     border-style: solid;
-    border-color: black;
+    border-color: #8C65FF;
     border-width: 1px;
     margin: 10px auto;
+    border-radius: 10px;
 }
 
 .paper-mindmap {
     border-style: solid;
-    border-color: black;
+    border-color: #8C65FF;
     border-width: 1px;
     margin: 10px auto;
+    border-radius: 10px;
+}
+
+.mindmap-bottom {
+    height: auto;
+}
+
+.explanation {
+    background-color: #E5E5E5;
+    border-radius: 10px;
+}
+
+.about-image {
+    width: 70%;
+}
+
+.func-buttons {
+    margin: 10px auto;
+}
+
+.mindmap-btn {
+    border-style: none;
+    border-radius: 10px;
+    background-color: #99B2FF;
+    padding: 10px 20px;
+    cursor: pointer;
 }
 
 .ctrl2 {
     border-style: solid;
-    border-color: black;
+    border-color: #8C65FF;
     border-width: 1px;
     margin: 10px auto;
     line-height: 35px;
+    border-radius: 10px;
+    background-color: #E5E5E5;
 }
 
 .ctrl2 a {
@@ -467,6 +542,10 @@ span {
     border: 1px solid #f55;
 }
 
+.function {
+    margin: 10px auto;
+}
+
 
 /*----------------------------------------------------*/
 
@@ -477,4 +556,41 @@ footer {
 
 footer h3 {
     float: right;
+}
+
+.background-colors {
+    margin: 10px auto;
+}
+
+.colors {
+    width: 30px;
+    height: 30px;
+    border-style: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#btn1 {
+    background-color: #fff7f7;
+}
+
+#btn2 {
+    background-color: #ffb6b9;
+}
+
+#btn3 {
+    background-color: #fae3d9;
+}
+
+#btn4 {
+    background-color: #bbded6;
+}
+
+#btn5 {
+    background-color: #8ac6d1;
+}
+
+footer img {
+    width: 250px;
+    height: 75px;
 }

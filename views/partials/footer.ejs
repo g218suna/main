@@ -1,7 +1,37 @@
 <footer>
     <h3>チームG</h3>
+    <div class="background-colors">
+        <button class="colors this" id="btn1" value="#fff7f7"></button>
+        <button class="colors" id="btn2" value="#ffb6b9"></button>
+        <button class="colors" id="btn3" value="#fae3d9"></button>
+        <button class="colors" id="btn4" value="#bbded6"></button>
+        <button class="colors" id="btn5" value="#8ac6d1"></button>
+    </div>
     <div><a href="https://icons8.com/icon/43227/マインド-マップ">マインド マップ icon by Icons8</a></div>
+    <div>
+        <a href="https://github.com/ssshooter/mind-elixir-core">
+            <img src="https://raw.githubusercontent.com/ssshooter/mind-elixir-core/master/logo.png">
+        </a>
+    </div>
 </footer>
+
+<script type="text/javascript">
+    var btns = Array.from(document.getElementsByClassName("colors"));
+    var clearCs = (cs, def) => {
+        for (let i = 0; i < cs.length; i++) {
+            cs[i].setAttribute('class', def);
+        }
+    };
+
+    for (let i = 0; i < btns.length; i++) {
+        btns[i].onclick = () => {
+            clearCs(btns, 'colors');
+            document.body.style.backgroundColor = btns[i].value;
+            btns[i].setAttribute('class', 'colors this');
+        };
+    }
+</script>
+
 </body>
 
 </html>

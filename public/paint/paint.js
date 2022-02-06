@@ -148,12 +148,18 @@ num_cls.onchange = () => {
     save_c11.setAttribute('class', 'cls cur');
 };
 /* 色選択枠のクリックイベントの登録 */
-for (let i = 0; i < cls.length; i++) {
+for (let i = 0; i < cls.length - 1; i++) {
     cls[i].onclick = () => {
         clearCs(cls, 'cls');
         ctx.strokeStyle = cls[i].getAttribute('cl');
         cls[i].setAttribute('class', 'cls cur');
     }
+}
+
+cls[cls.length - 1].onclick = () => {
+    clearCs(cls, 'cls');
+    ctx.strokeStyle = "#fff";
+    cls[cls.length - 1].setAttribute('class', 'cls cur');
 }
 
 /* 保存ボタン押下時 */

@@ -375,10 +375,18 @@ app.get('/my_idea', (req, res) => {
 
 //公開設定 1=公開,0=非公開
 app.post('/sharingSetting_change/:rootID', (req, res) => {
-    IdeaSheets.update({ sharingSetting: req.body.sharingSetting }, { where: { rootID: req.params.rootID } }).then(() => {
+    IdeaSheets.update({
+        nickName: req.body.nickName,
+        title: req.body.title,
+        rootName: req.body.rootName,
+        sharingSetting: req.body.sharingSetting
+    }, {
+        where: {
+            rootID: req.params.rootID
+        }
+    }).then(() => {
         res.redirect('/my_idea');
     });
-
 });
 
 //各アイデアページ
@@ -387,6 +395,15 @@ app.get('/idea_edit/:rootID', (req, res) => {
         where: { rootID: req.params.rootID }
     }).then((ideaPage_data) => {
         res.render('ideaPage/' + req.params.rootID + '.ejs', { ideaPage_data: ideaPage_data });
+    });
+});
+
+//公開用アイデアページ
+app.get('/release_idea/:rootID', (req, res) => {
+    IdeaSheets.findAll({
+        where: { rootID: req.params.rootID }
+    }).then((ideaPage_data) => {
+        res.render('ideaPage/release_' + req.params.rootID + '.ejs', { ideaPage_data: ideaPage_data });
     });
 });
 
@@ -418,7 +435,7 @@ app.post('/idea_delete/:rootID', (req, res) => {
 });
 
 /*-----------------------------------------------------*/
-
+//アイデアを新規作成
 app.get('/create_new_idea', (req, res) => {
     User.findAll({
         where: { id: req.user.id }
@@ -427,6 +444,7 @@ app.get('/create_new_idea', (req, res) => {
     });
 });
 
+//データベースに登録
 app.post('/create/:id', (req, res) => {
     IdeaSheets.create({
         id: req.body.id,
@@ -442,10 +460,19 @@ app.post('/create/:id', (req, res) => {
     });
 });
 
+//ページをコピー
 app.get('/createPage', (req, res) => {
     IdeaSheets.max('rootID').then(maxRootId => {
         IdeaSheets.update({ pageURL: maxRootId + '.ejs' }, { where: { rootID: maxRootId } }).then(() => {
             fs.copyFile('views/ideaPage/template.ejs', 'views/ideaPage/' + maxRootId + '.ejs', (err) => {
+                if (err) {
+                    console.log(err.stack);
+                } else {
+                    console.log('Done.');
+                }
+            });
+
+            fs.copyFile('views/ideaPage/release_template.ejs', 'views/ideaPage/release_' + maxRootId + '.ejs', (err) => {
                 if (err) {
                     console.log(err.stack);
                 } else {
@@ -460,6 +487,14 @@ app.get('/createPage', (req, res) => {
                     console.log('Done.');
                 }
             });
+
+            /*IdeaSheets.findAll({
+                where: { rootId: maxRootId }
+            }).then((ideaPage_data) => {
+                console.log(ideaPage_data.rootName);
+                fs.writeFileSync('public/mindelixir/data/' + maxRootId + '.js', 'let mindmapData = {"nodeData":{"id":"root","topic":"' + ideaPage_data.rootName + '","root":true,"children":[],"expanded":true},"linkData":{}};');
+            });*/
+
             res.redirect('/my_idea');
         });
     });

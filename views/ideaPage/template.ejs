@@ -7,8 +7,8 @@
                     <% ideaPage_data.forEach((ideaPage_data)=> { %>
                         <%= ideaPage_data.title %>
                             <form action="/change_title/<%= ideaPage_data.rootId%>" method="post">
-                                <input class="change_title" type="text" name="changeTitle">
-                                <input class="change_title" type="submit" value="タイトルを変更">
+                                <input class="change_title mindmap-btn" value="<%=ideaPage_data.title %>" type="text" name="changeTitle">
+                                <input class="change_title mindmap-btn" type="submit" value="タイトルを変更">
                             </form>
                             <% }); %>
                 </h2>
@@ -16,7 +16,22 @@
 
             <div class="paper-mindmap" id="map">
             </div>
-            <button id='$btn'>保存</button>
+            <div class="mindmap-bottom">
+                <div class="explanation">
+                    <details>
+                        <summary>
+                            <h3>マインドマップの書き方</h3>
+                        </summary>
+                        <span class="">※Macからではキーボード操作が出来ないことがあるので、右クリックメニューを使用してください</span>
+                        <img class="about-image" src="/images/about.png">
+                    </details>
+                </div>
+                <div class="func-buttons">
+                    <button class="mindmap-btn" id='$btn'>保存</button>
+                    <button class="mindmap-btn" id='$btn_save'>画像出力</button>
+                </div>
+            </div>
+
             <style>
                 #map {
                     height: 600px;
@@ -50,7 +65,7 @@
                     <span class="wds" wd="13"><span id="w13"></span></span>
 
                     <!-- 「線の太さ」選択枠 -->
-                    <input type="number" id="width" min="1" max="13" value="1">
+                    <input class="mindmap-btn" type="number" id="width" min="1" max="13" value="1">
                 </div>
                 <div class="pencil-color">
                     <img src="/images/palette.png">
@@ -69,13 +84,13 @@
                     <!-- 「線の色」選択枠 -->
                     <input type="color" id="color">
                 </div>
-                <div class="eraser">
+                <div class="cls">
                     <img src="/images/eraser.png">
                 </div>
                 <div class="function">
-                    <input type="button" id="clear" value="クリア">
+                    <button class="mindmap-btn" type="button" id="clear">クリア</button>
                     <% ideaPage_data.forEach((ideaPage_data)=> { %>
-                        <a id="save" href="#" download="<%= ideaPage_data.title %>.jpg">保存</a>
+                        <button class="mindmap-btn" id="save" download="<%= ideaPage_data.title %>.jpg">保存</button>
                         <%}); %>
                 </div>
             </div>
@@ -84,6 +99,7 @@
 
     <!--<script type="text/javascript" src="/gojs/my-gojs.js"></script>-->
     <script type="text/javascript" src="/mindelixir/dist/MindElixir.js"></script>
+    <script type="text/javascript" src="/mindelixir/dist/painter.js"></script>
 
     <script type="text/javascript">
         function loadScript(src) {
