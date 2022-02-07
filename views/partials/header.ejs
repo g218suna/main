@@ -10,12 +10,45 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=M+PLUS+Rounded+1c">
     <link rel="shortcut icon" href="/images/icons8Mindmap.ico" type="image/vnd.microsoft.icon">
     <link rel="icon" href="/images/icons8Mindmap.ico">
+    <!-- jQueryの読み込み -->
+    <script src="https://code.jquery.com/jquery-2.2.4.js" integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI=" crossorigin="anonymous"></script>
 
-    <link type="text/css" rel="stylesheet" href="/jsmind/style/jsmind.css" />
-    <script type="text/javascript" src="/jsmind/js/jsmind.js"></script>
-    <script type="text/javascript" src="/jsmind/js/jsmind.draggable.js"></script>
+    <script type="text/javascript">
+        window.onload = () => {
+            spmenu.onclick = () => {
+                document.getElementById("spNav").style.display = "block";
+                document.getElementById("spmenu").style.display = "none";
+                document.getElementById("spmenuClose").style.display = "block";
+            };
 
-    <!--<script type="text/javascript" src="/gojs/release/go.js"></script>-->
+            spmenuClose.onclick = () => {
+                document.getElementById("spNav").style.display = "none";
+                document.getElementById("spmenu").style.display = "block";
+                document.getElementById("spmenuClose").style.display = "none";
+            };
+        };
+
+        const clock = () => {
+            var d = new Date();
+            const dayname = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
+            var year = d.getFullYear();
+            var month = d.getMonth() + 1;
+            var date = d.getDate();
+            var dayofweek = d.getDay();
+            var hour = d.getHours();
+            var minute = d.getMinutes();
+            var second = d.getSeconds();
+
+            month = month < 10 ? "0" + month : month;
+            date = date < 10 ? "0" + date : date;
+            hour = hour < 10 ? "0" + hour : hour;
+            minute = minute < 10 ? "0" + minute : minute;
+            second = second < 10 ? "0" + second : second;
+            document.getElementsByClassName("clock")[0].innerHTML = year + "/" + month + "/" + date + "/" + dayname[dayofweek] + ' ' + hour + ":" + minute + ":" + second;
+        };
+
+        setInterval(clock, 1000);
+    </script>
 </head>
 
 <body>
@@ -30,11 +63,31 @@
                 </a>
             </div>
             <div class="header-right">
+                <span class="clock"></span>
+                <script type="text/javascript">
+                    clock();
+                </script>
                 <a href="/logout" class="btn-header logout-header">ログアウト</a>
                 <a href="/everyone_idea" class="btn-header everyone-idea-header">みんなのアイデアを見る</a>
                 <a href="/my_idea" class="btn-header my-idea-header">自分のアイデアを見る</a>
                 <a href="/create_new_idea" class="btn-header create-new-header">アイデアを新規作成</a>
                 <a href="/configuration" class="btn-header configuration-header">設定</a>
             </div>
+
+            <div class="menu">
+                <img class="menu-icon" id="spmenu" src="/images/menu.png">
+                <img class="menu-icon-close" id="spmenuClose" src="/images/cross.png">
+            </div>
+
+            <nav class="sp-nav" id="spNav">
+                <ul>
+                    <li><a href="/logout" class="">ログアウト</a></li>
+                    <li><a href="/everyone_idea" class="">みんなのアイデアを見る</a></li>
+                    <li><a href="/my_idea" class="">自分のアイデアを見る</a></li>
+                    <li><a href="/create_new_idea" class="">アイデアを新規作成</a></li>
+                    <li><a href="/configuration" class="">設定</a></li>
+                </ul>
+            </nav>
+
         </div>
     </header>
